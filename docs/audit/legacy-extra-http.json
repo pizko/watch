@@ -1,0 +1,20 @@
+[
+  {
+    "url": "https://remontiryemchasi.ru/polity/",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://remontiryemchasi.ru/privacy-policy/",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "http://remontiryemchasi.ru/",
+    "status": 200,
+    "final_url": "https://remontiryemchasi.ru:443/"
+  },
+  {
+    "url": "https://www.remontiryemchasi.ru/",
+    "status": 200,
+    "final_url": "https://remontiryemchasi.ru/"
+  }
+]

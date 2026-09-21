@@ -1,0 +1,219 @@
+[
+  {
+    "slug": "rolex",
+    "name": "Rolex",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "patek-philippe",
+    "name": "Patek Philippe",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "audemars-piguet",
+    "name": "Audemars Piguet",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "vacheron-constantin",
+    "name": "Vacheron Constantin",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "breguet",
+    "name": "Breguet",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "jaeger-lecoultre",
+    "name": "Jaeger-LeCoultre",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "a-lange-soehne",
+    "name": "A. Lange & Söhne",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "omega",
+    "name": "Omega",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "cartier",
+    "name": "Cartier",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "blancpain",
+    "name": "Blancpain",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "iwc",
+    "name": "IWC Schaffhausen",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "zenith",
+    "name": "Zenith",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "ulysse-nardin",
+    "name": "Ulysse Nardin",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "girard-perregaux",
+    "name": "Girard-Perregaux",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "hublot",
+    "name": "Hublot",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "panerai",
+    "name": "Panerai",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "chopard",
+    "name": "Chopard",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "piaget",
+    "name": "Piaget",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "franck-muller",
+    "name": "Franck Muller",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "parmigiani",
+    "name": "Parmigiani Fleurier",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "h-moser",
+    "name": "H. Moser & Cie.",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "breitling",
+    "name": "Breitling",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "tag-heuer",
+    "name": "TAG Heuer",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "tudor",
+    "name": "Tudor",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "grand-seiko",
+    "name": "Grand Seiko",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "longines",
+    "name": "Longines",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "rado",
+    "name": "Rado",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "tissot",
+    "name": "Tissot",
+    "status": "listed_on_source",
+    "source": "https://remontiryemchasi.ru/brands/",
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "maurice-lacroix",
+    "name": "Maurice Lacroix",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "frederique-constant",
+    "name": "Frederique Constant",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  },
+  {
+    "slug": "oris",
+    "name": "Oris",
+    "status": "pending",
+    "source": null,
+    "checked_at": "2026-09-21"
+  }
+]

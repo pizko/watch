@@ -1,0 +1,12 @@
+{
+  "pages": 50,
+  "images": {
+    "/assets/images/watchmaker.webp": 7,
+    "/assets/images/detail-01.webp": 8,
+    "/assets/images/detail-02.webp": 6,
+    "/assets/images/detail-03.webp": 5,
+    "/assets/images/hero-poster.webp": 4
+  },
+  "without_canonical": 0,
+  "h1_errors": 0
+}

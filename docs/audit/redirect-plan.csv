@@ -1,0 +1,27 @@
+old_url,proposed_new_url,planned_status,state,reason
+https://remontiryemchasi.ru/,/,200,proposal_not_deployed,Сохранить действующий URL
+https://remontiryemchasi.ru/author/as93yuri/,/author/as93yuri/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/blog/,/blog/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/brands/,/brands/,200,proposal_not_deployed,Сохранить действующий URL
+https://remontiryemchasi.ru/category/%d0%b1%d0%b5%d0%b7-%d1%80%d1%83%d0%b1%d1%80%d0%b8%d0%ba%d0%b8/,/category/%d0%b1%d0%b5%d0%b7-%d1%80%d1%83%d0%b1%d1%80%d0%b8%d0%ba%d0%b8/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/category/10/,/category/10/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/cookie/,/cookie/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/kak-chasto-nuzhno-obsluzhivat-chasy/,/kak-chasto-nuzhno-obsluzhivat-chasy/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/kontakty/,/contacts/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/prajs-na-uslugi-remonta-chasov/,/prices/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/privacy/,/privacy/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/raboty/corum-admirals-cup-2/,/raboty/corum-admirals-cup-2/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/raboty/corum-admirals-cup/,/works/corum-admirals-cup/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/raboty/maurice-lacroixalarm/,/works/maurice-lacroix/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/raboty/omega-seamaster-planet-ocean/,/works/omega-seamaster-planet-ocean/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/raboty/omega-seamasterplanet-ocean-2/,/raboty/omega-seamasterplanet-ocean-2/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/raboty/tissot-le-locle/,/works/tissot/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/remont-shvejczarskih-chasov-v-moskve-2/,/remont-shvejczarskih-chasov-v-moskve-2/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/stat/,/stat/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/uslugi/,/services/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/uslugi/chistka-i-smazka-mehanizma/,/services/full-service/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/uslugi/polirovka-korpusa-ibrasleta/,/services/polishing/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/uslugi/remont-shvejczarskih-chasov/,/uslugi/remont-shvejczarskih-chasov/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/uslugi/zamena-batarejki/,/uslugi/zamena-batarejki/,200,proposal_not_deployed,В новой версии нет равноценного содержимого; сохранить старую страницу до переноса
+https://remontiryemchasi.ru/uslugi/zamena-stekla/,/services/glass-replacement/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301
+https://remontiryemchasi.ru/vypolnennye-raboty/,/works/,301,proposal_not_deployed,Проверить полноту переноса содержимого до включения 301

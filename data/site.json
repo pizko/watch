@@ -1,0 +1,21 @@
+{
+  "environment": "preview",
+  "production_origin": "https://remontiryemchasi.ru",
+  "name": "Atelier 01",
+  "indexable_routes": [],
+  "contacts": {
+    "address": null,
+    "phone": null,
+    "hours": null,
+    "status": "pending_owner_confirmation",
+    "observed_on_source": {
+      "address": "107031, Москва, улица Петровка 23/10 с. 5",
+      "phone": "+7 (993) 603-11-94",
+      "email": "info@remontiryemchasi.ru",
+      "hours_header": "Ежедневно с 10:00 до 20:00",
+      "hours_contacts": "Пн-Пт: 10:00–19:30; Сб-Вс: 11:00–18:30",
+      "source": "https://remontiryemchasi.ru/kontakty/",
+      "checked_at": "2026-09-21"
+    }
+  }
+}

@@ -1,0 +1,236 @@
+[
+  {
+    "url": "/atelier/",
+    "status": 200
+  },
+  {
+    "url": "/brands/a-lange-soehne/",
+    "status": 200
+  },
+  {
+    "url": "/brands/audemars-piguet/",
+    "status": 200
+  },
+  {
+    "url": "/brands/blancpain/",
+    "status": 200
+  },
+  {
+    "url": "/brands/breguet/",
+    "status": 200
+  },
+  {
+    "url": "/brands/breitling/",
+    "status": 200
+  },
+  {
+    "url": "/brands/cartier/",
+    "status": 200
+  },
+  {
+    "url": "/brands/chopard/",
+    "status": 200
+  },
+  {
+    "url": "/brands/franck-muller/",
+    "status": 200
+  },
+  {
+    "url": "/brands/frederique-constant/",
+    "status": 200
+  },
+  {
+    "url": "/brands/girard-perregaux/",
+    "status": 200
+  },
+  {
+    "url": "/brands/grand-seiko/",
+    "status": 200
+  },
+  {
+    "url": "/brands/h-moser/",
+    "status": 200
+  },
+  {
+    "url": "/brands/hublot/",
+    "status": 200
+  },
+  {
+    "url": "/brands/",
+    "status": 200
+  },
+  {
+    "url": "/brands/iwc/",
+    "status": 200
+  },
+  {
+    "url": "/brands/jaeger-lecoultre/",
+    "status": 200
+  },
+  {
+    "url": "/brands/longines/",
+    "status": 200
+  },
+  {
+    "url": "/brands/maurice-lacroix/",
+    "status": 200
+  },
+  {
+    "url": "/brands/omega/",
+    "status": 200
+  },
+  {
+    "url": "/brands/oris/",
+    "status": 200
+  },
+  {
+    "url": "/brands/panerai/",
+    "status": 200
+  },
+  {
+    "url": "/brands/parmigiani/",
+    "status": 200
+  },
+  {
+    "url": "/brands/patek-philippe/",
+    "status": 200
+  },
+  {
+    "url": "/brands/piaget/",
+    "status": 200
+  },
+  {
+    "url": "/brands/rado/",
+    "status": 200
+  },
+  {
+    "url": "/brands/rolex/",
+    "status": 200
+  },
+  {
+    "url": "/brands/tag-heuer/",
+    "status": 200
+  },
+  {
+    "url": "/brands/tissot/",
+    "status": 200
+  },
+  {
+    "url": "/brands/tudor/",
+    "status": 200
+  },
+  {
+    "url": "/brands/ulysse-nardin/",
+    "status": 200
+  },
+  {
+    "url": "/brands/vacheron-constantin/",
+    "status": 200
+  },
+  {
+    "url": "/brands/zenith/",
+    "status": 200
+  },
+  {
+    "url": "/contacts/",
+    "status": 200
+  },
+  {
+    "url": "/",
+    "status": 200
+  },
+  {
+    "url": "/prices/",
+    "status": 200
+  },
+  {
+    "url": "/services/automatic-winding/",
+    "status": 200
+  },
+  {
+    "url": "/services/chronograph/",
+    "status": 200
+  },
+  {
+    "url": "/services/full-service/",
+    "status": 200
+  },
+  {
+    "url": "/services/glass-replacement/",
+    "status": 200
+  },
+  {
+    "url": "/services/",
+    "status": 200
+  },
+  {
+    "url": "/services/movement-repair/",
+    "status": 200
+  },
+  {
+    "url": "/services/polishing/",
+    "status": 200
+  },
+  {
+    "url": "/services/restoration/",
+    "status": 200
+  },
+  {
+    "url": "/services/water-resistance/",
+    "status": 200
+  },
+  {
+    "url": "/works/corum-admirals-cup/",
+    "status": 200
+  },
+  {
+    "url": "/works/",
+    "status": 200
+  },
+  {
+    "url": "/works/maurice-lacroix/",
+    "status": 200
+  },
+  {
+    "url": "/works/omega-seamaster-planet-ocean/",
+    "status": 200
+  },
+  {
+    "url": "/works/tissot/",
+    "status": 200
+  },
+  {
+    "url": "/assets/videos/detail-01.mp4",
+    "status": 200,
+    "mime": "video/mp4",
+    "bytes": 2529241
+  },
+  {
+    "url": "/assets/videos/detail-02.mp4",
+    "status": 200,
+    "mime": "video/mp4",
+    "bytes": 2985716
+  },
+  {
+    "url": "/assets/videos/detail-03.mp4",
+    "status": 200,
+    "mime": "video/mp4",
+    "bytes": 3918974
+  },
+  {
+    "url": "/assets/videos/hero-watch.mp4",
+    "status": 200,
+    "mime": "video/mp4",
+    "bytes": 3072273
+  },
+  {
+    "url": "/assets/videos/watchmaker.mp4",
+    "status": 200,
+    "mime": "video/mp4",
+    "bytes": 16047296
+  },
+  {
+    "url": "/does-not-exist-watch-audit/",
+    "status": 404
+  }
+]
