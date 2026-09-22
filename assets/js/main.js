@@ -34,9 +34,7 @@
   document.querySelectorAll('.faq-q').forEach(button => {
     button.addEventListener('click', () => {
       const item = button.closest('.faq-item');
-      const answer = item.querySelector('.faq-a');
       const open = item.classList.toggle('open');
-      answer.style.maxHeight = open ? answer.scrollHeight + 'px' : '0px';
       button.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
@@ -44,21 +42,6 @@
   document.querySelectorAll('.price-category > button').forEach(button => {
     button.addEventListener('click', () => button.closest('.price-category').classList.toggle('open'));
   });
-
-  const preview = document.querySelector('#servicePreviewImage');
-  if (preview) {
-    document.querySelectorAll('.service-item[data-preview]').forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        const next = item.dataset.preview;
-        if (!next || preview.getAttribute('src') === next) return;
-        preview.style.opacity = '0';
-        setTimeout(() => {
-          preview.src = next;
-          preview.onload = () => preview.style.opacity = '1';
-        }, 150);
-      });
-    });
-  }
 
   // Load media only near the viewport; respect motion and data-saving preferences.
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
