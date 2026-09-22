@@ -48,7 +48,6 @@
   const connection = navigator.connection;
   const videos = [...document.querySelectorAll('video[data-lazy-video]')];
   const active = new Set();
-  const manuallyPaused = new Set();
   const automaticPlayback = () => !motion.matches && !connection?.saveData;
 
   const loadVideo = video => {
@@ -61,47 +60,19 @@
   const playVideo = video => {
     loadVideo(video);
     video.play().catch(() => {
-      // Autoplay may be blocked by the browser. The poster and play button remain.
-      video.closest('[data-video-frame]')?.classList.remove('is-playing');
+      // Autoplay may be blocked by the browser. The poster remains visible.
     });
   };
   const syncPlayback = () => videos.forEach(video => {
-    if (automaticPlayback() && active.has(video) && !document.hidden && !manuallyPaused.has(video)) playVideo(video);
+    if (automaticPlayback() && active.has(video) && !document.hidden) playVideo(video);
     else video.pause();
   });
 
   videos.forEach(video => {
     const frame = video.parentElement;
-    frame.dataset.videoFrame = '';
-    const control = document.createElement('button');
-    control.className = 'video-control';
-    control.type = 'button';
-    control.textContent = 'Воспроизвести видео';
-    control.setAttribute('aria-label', 'Воспроизвести видео');
-    control.addEventListener('click', () => {
-      if (video.paused) {
-        manuallyPaused.delete(video);
-        playVideo(video);
-      } else {
-        manuallyPaused.add(video);
-        video.pause();
-      }
-    });
-    frame.append(control);
-    video.addEventListener('playing', () => {
-      frame.classList.add('is-playing');
-      control.textContent = 'Пауза';
-      control.setAttribute('aria-label', 'Приостановить видео');
-    });
-    video.addEventListener('pause', () => {
-      frame.classList.remove('is-playing');
-      control.textContent = 'Воспроизвести видео';
-      control.setAttribute('aria-label', 'Воспроизвести видео');
-    });
     const failed = () => {
       // An unloaded video is deliberately dormant, not a failed request.
       if (!video.dataset.loaded) return;
-      frame.classList.remove('is-playing');
       if (!frame.querySelector('img') && video.poster) {
         const fallback = document.createElement('img');
         fallback.src = video.poster;
@@ -109,9 +80,6 @@
         frame.prepend(fallback);
       }
       video.hidden = true;
-      control.disabled = true;
-      control.textContent = 'Видео недоступно';
-      control.setAttribute('aria-label', 'Видео недоступно');
       console.warn('Video unavailable:', video.currentSrc || video.dataset.src);
     };
     video.addEventListener('error', failed);

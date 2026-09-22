@@ -54,8 +54,6 @@ button { color:inherit; }
 .btn.dark:hover { background:#0b0e11; color:#f2eee6; border-color:#0b0e11; }
 .btn.ghost { border-color:transparent; padding-inline:0; min-height:auto; }
 .btn.ghost:hover { background:transparent; color:inherit; opacity:.62; }
-.btn-arrow { transition:transform .3s var(--ease); font-size:16px; }
-.btn:hover .btn-arrow { transform:translateX(5px); }
 
 /* header */
 .site-header { position:fixed; z-index:100; inset:0 0 auto; height:82px; transition:background .35s var(--ease), backdrop-filter .35s var(--ease), border-color .35s var(--ease); border-bottom:1px solid transparent; }
@@ -89,13 +87,7 @@ button { color:inherit; }
 .media-frame > img, .media-frame > video,
 .video-tile > img, .video-tile > video { position:absolute; inset:0; }
 .media-frame { aspect-ratio:1; }
-[data-video-frame] > video[hidden] { display:none; }
-.video-control { position:absolute; z-index:4; top:20px; right:20px; padding:10px 14px; border:1px solid rgba(255,255,255,.45); color:#fff; background:rgba(7,9,11,.72); cursor:pointer; font-size:11px; }
-.hero-media .video-control { top:100px; }
-.hero-inner { pointer-events:none; }
-.hero-inner a { pointer-events:auto; }
-.hero-media::after { pointer-events:none; }
-.video-control:focus-visible { outline:2px solid var(--ivory); outline-offset:4px; }
+video[hidden] { display:none; }
 .hero-media video, .hero-media img { width:100%; height:100%; object-fit:cover; object-position:center center; }
 .hero-media video { filter:grayscale(.96) saturate(.15) contrast(1.12) brightness(.62); transform:scale(1.025); }
 .hero-media::after { content:''; position:absolute; inset:0; background:
@@ -249,7 +241,6 @@ button { color:inherit; }
 .brand-index-card { min-height:210px; border-right:1px solid var(--line-dark); border-bottom:1px solid var(--line-dark); padding:28px; display:flex; flex-direction:column; justify-content:space-between; transition:background .3s; }
 .brand-index-card:hover { background:rgba(255,255,255,.03); }
 .brand-index-card .name { font-family:var(--serif); font-size:35px; line-height:1; }
-.brand-index-card .arrow { align-self:flex-end; opacity:.45; }
 .price-accordion { border-top:1px solid var(--line-dark); }
 .price-category { border-bottom:1px solid var(--line-dark); }
 .price-category > button { width:100%; color:inherit; background:transparent; border:0; padding:28px 0; display:grid; grid-template-columns:1fr auto; align-items:center; text-align:left; cursor:pointer; }
