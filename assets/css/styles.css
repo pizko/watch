@@ -42,6 +42,9 @@ button { color:inherit; }
 .eyebrow::before { content:''; width:28px; height:1px; background:currentColor; opacity:.7; }
 .display { font-family:var(--serif); font-weight:400; letter-spacing:-.045em; line-height:.88; }
 .display-xl { font-size:clamp(72px, 10.6vw, 190px); }
+/* Заголовок первого экрана длиннее двух слов: при 10.6vw он занимал четыре строки
+   и выталкивал кнопку за нижний край экрана. Меряем кегль высотой окна тоже. */
+.hero-copy .display-xl { font-size:clamp(46px, min(8.6vw, 11vh), 130px); }
 .display-lg { font-size:clamp(58px, 7.6vw, 126px); }
 .display-md { font-size:clamp(44px, 5.5vw, 88px); }
 .lead { font-size:clamp(20px, 1.7vw, 28px); line-height:1.45; font-weight:300; letter-spacing:-.02em; }

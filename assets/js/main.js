@@ -99,17 +99,6 @@
   connection?.addEventListener('change', syncPlayback);
   document.addEventListener('visibilitychange', syncPlayback);
 
-  document.querySelectorAll('[data-demo-form]').forEach(form => {
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const toast = document.querySelector('.toast');
-      if (toast) {
-        toast.textContent = 'Форма готова. Подключите CRM/почту перед публикацией.';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3800);
-      }
-    });
-  });
 
   // Update footer year.
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
