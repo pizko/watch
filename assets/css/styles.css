@@ -126,14 +126,16 @@ video[hidden] { display:none; }
 
 /* services */
 .services-head { display:grid; grid-template-columns:1fr 1fr; gap:8vw; align-items:end; margin-bottom:80px; }
-.services-layout { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr); gap:7vw; align-items:start; }
+.services-layout { display:grid; grid-template-columns:minmax(0,1.04fr) minmax(330px,.96fr); gap:clamp(32px,4.5vw,84px); align-items:start; }
 .service-list { border-top:1px solid var(--line-dark); }
 .service-item { display:grid; grid-template-columns:54px minmax(0,1fr) auto; gap:22px; align-items:center; padding:28px 0; border-bottom:1px solid var(--line-dark); transition:padding-left .3s var(--ease), opacity .3s; }
 .service-item:hover { padding-left:12px; }
 .service-item .index { font-size:10px; letter-spacing:.1em; opacity:.48; }
 .service-item h3 { font-family:var(--serif); font-size:clamp(28px,2.8vw,48px); font-weight:400; letter-spacing:-.025em; margin:0; }
 .service-item .meta { display:flex; align-items:center; gap:24px; font-size:10px; text-transform:uppercase; letter-spacing:.12em; opacity:.6; }
-.service-preview { position:sticky; top:118px; aspect-ratio:4/5; overflow:hidden; background:#13171c; }
+/* Картинка держится на экране, пока листается список, и занимает сопоставимую
+   площадь: при aspect-ratio 4/5 правая колонка кончалась заметно раньше левой. */
+.service-preview { position:sticky; top:118px; height:min(78svh, 840px); overflow:hidden; background:#13171c; }
 .service-preview img { width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.08); transition:opacity .25s var(--ease),transform .8s var(--ease); }
 .service-preview:hover img { transform:scale(1.025); }
 .service-preview-note { position:absolute; left:22px; right:22px; bottom:20px; z-index:2; display:flex; justify-content:space-between; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
@@ -427,3 +429,37 @@ h1, h2, h3 { hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; }
   .site-footer { padding-bottom:calc(92px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion:reduce){ .call-fab { transition:none; } }
+
+/* Первый экран внутренних страниц с видео — как на главной. */
+.page-hero-video { min-height:min(78svh, 760px); }
+.page-hero-video .page-hero-media { position:absolute; inset:0; }
+.page-hero-video .page-hero-media img,
+.page-hero-video .page-hero-media video { width:100%; height:100%; object-fit:cover; }
+.page-hero-video .page-hero-media::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(5,7,9,.72) 0%, rgba(5,7,9,.52) 45%, rgba(5,7,9,.88) 100%);
+}
+.page-hero-lead { max-width:56ch; margin:22px 0 0; font-size:clamp(15px,1.3vw,18px); line-height:1.6; opacity:.78; }
+
+/* Страница марки: слева текст, справа плашка с названием и перечнем работ. */
+.brand-intro { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:clamp(32px,5vw,80px); align-items:start; }
+.brand-intro-copy .lead { margin:18px 0 14px; }
+.brand-intro-copy .copy { max-width:54ch; }
+.brand-intro-copy .btn { margin-top:26px; }
+.brand-mark {
+  display:flex; align-items:center; justify-content:center;
+  min-height:190px; margin-bottom:26px; padding:28px 24px;
+  border:1px solid var(--line-dark); background:#0b0e13;
+}
+.brand-mark span {
+  font-family:var(--serif); font-weight:400; text-align:center;
+  font-size:clamp(26px,2.6vw,42px); line-height:1.1; letter-spacing:-.02em;
+  color:#efece6; filter:grayscale(1);
+}
+.brand-intro-side .detail-list { margin:0 0 20px; }
+.brand-intro-side .small { opacity:.5; }
+@media (max-width:900px){
+  .brand-intro { grid-template-columns:1fr; }
+  .brand-mark { min-height:150px; }
+  .page-hero-video { min-height:64svh; }
+}

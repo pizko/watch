@@ -12,7 +12,7 @@ PHONE_HREF = 'tel:+' + CONTACTS['phone_href'].lstrip('+')
 ADDRESS = CONTACTS['address']
 ADDRESS_TEXT = f"{ADDRESS['street']}, {ADDRESS['locality']}"
 HOURS_TEXT = CONTACTS['hours_text']
-IMAGE_SIZES = {'hero-poster.webp': (1600, 900), 'watchmaker.webp': (1000, 1000),
+IMAGE_SIZES = {'hero-poster.webp': (1400, 900), 'watchmaker.webp': (1000, 1000),
                'detail-01.webp': (900, 1126), 'detail-02.webp': (900, 1126),
                'detail-03.webp': (900, 1126)}
 
@@ -43,6 +43,25 @@ brands = [
     ('franck-muller','Franck Muller'),('parmigiani','Parmigiani Fleurier'),('h-moser','H. Moser & Cie.'),('breitling','Breitling'),
     ('tag-heuer','TAG Heuer'),('tudor','Tudor'),('grand-seiko','Grand Seiko'),('longines','Longines'),('rado','Rado'),
     ('tissot','Tissot'),('maurice-lacroix','Maurice Lacroix'),('frederique-constant','Frederique Constant'),('oris','Oris')
+]
+
+
+# ── Общие данные страниц ───────────────────────────────────────────────────
+# Правятся в одном месте и попадают на все страницы, где выводится блок.
+price_teaser = [
+    ('Обслуживание механизма', 'после диагностики'),
+    ('Корпус и полировка', 'по состоянию'),
+    ('Стекло', 'по модели'),
+    ('Герметичность', 'по задаче'),
+    ('Сложные механизмы', 'индивидуально'),
+]
+
+process_steps = [
+    ('Диагностика', 'Определяем состояние часов и характер вмешательства.'),
+    ('Согласование', 'Фиксируем перечень работ до их начала.'),
+    ('Работа', 'Выполняем согласованные операции без лишнего вмешательства.'),
+    ('Контроль', 'Проверяем параметры, относящиеся к выполненной работе.'),
+    ('Выдача', 'Передаём часы владельцу с понятным описанием результата.'),
 ]
 
 faqs = [
@@ -164,6 +183,87 @@ def page_hero(title, label, depth=0, media='hero-poster.webp', breadcrumbs_html=
     picture = f'<div class="page-hero-media"><img src="{p}assets/images/{media}" alt=""></div>' if media else ''
     return f'''<section class="page-hero">{picture}<div class="container page-hero-content">{breadcrumbs_html}<div class="eyebrow">{escape(label)}</div><h1 class="display display-lg">{escape(title)}</h1></div></section>'''
 
+
+# ── Переиспользуемые секции ────────────────────────────────────────────────
+# Каждая принимает префикс относительных ссылок и собирается из общих данных,
+# поэтому правка прайса, этапов или контактов разом меняет все страницы.
+
+MAP_EMBED = ('<div class="contact-map"><iframe src="https://yandex.ru/map-widget/v1/'
+             '?um=constructor%3A349d14082660d41000ccf910e5fae332e234360b34a1b731d98f4ddc441a9b1b&amp;source=constructor" '
+             'width="100%" height="400" frameborder="0" loading="lazy" '
+             'title="Мастерская на карте: улица Петровка, 23/10, строение 5"></iframe></div>')
+
+
+def block_process(prefix=''):
+    steps = ''.join(
+        f'<div class="process-step reveal"><span class="n">{i+1:02}</span><h3>{escape(t)}</h3><p>{escape(x)}</p></div>'
+        for i, (t, x) in enumerate(process_steps))
+    return (f'<section class="section section-ivory"><div class="container">'
+            f'<div class="eyebrow reveal">Порядок работы</div>'
+            f'<h2 class="display display-lg reveal heading-margin-start one-line">От состояния к результату.</h2>'
+            f'<div class="process-grid">{steps}</div></div></section>')
+
+
+def block_triptych(prefix=''):
+    p = prefix
+    tiles = ''.join(
+        f'<div class="video-tile reveal"><img src="{p}assets/images/detail-0{i}.webp" alt="{escape(alt)}">'
+        f'<video autoplay muted loop playsinline poster="{p}assets/images/detail-0{i}.webp">'
+        f'<source src="{p}assets/videos/detail-0{i}.mp4" type="video/mp4"></video>'
+        f'<span class="label">{escape(lab)}</span></div>'
+        for i, (alt, lab) in enumerate([('Механизм', 'Осмотр / 01'), ('Микроработа', 'Регулировка / 02'),
+                                        ('Браслет', 'Отделка / 03')], start=1))
+    return (f'<section class="section section-dark"><div class="container">'
+            f'<div class="brands-head video-head"><div><div class="eyebrow reveal">Мастерская</div>'
+            f'<h2 class="display display-lg reveal one-line">Чиним премиальные часы с 1991 года.</h2></div></div>'
+            f'<div class="video-triptych">{tiles}</div></div></section>')
+
+
+def block_prices(prefix=''):
+    rows = ''.join(f'<div class="price-row"><h3>{escape(n)}</h3><span>{escape(v)}</span></div>'
+                   for n, v in price_teaser)
+    return (f'<section class="section section-navy"><div class="container price-layout">'
+            f'<div class="reveal"><div class="eyebrow">Цены и согласование</div>'
+            f'<h2 class="display display-md">Цена после понимания задачи.</h2>'
+            f'<a class="btn mt-28" href="{prefix}prices/">Смотреть структуру прайса</a></div>'
+            f'<div class="price-list reveal">{rows}</div></div></section>')
+
+
+def block_faq(prefix=''):
+    items = ''.join(
+        f'<div class="faq-item"><button class="faq-q" aria-expanded="false"><span>{escape(q)}</span>'
+        f'<span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-inner">{escape(a)}</div></div></div>'
+        for q, a in faqs)
+    return (f'<section class="section section-ivory"><div class="container narrow">'
+            f'<div class="eyebrow reveal">Вопросы перед обращением</div>'
+            f'<h2 class="display display-md reveal heading-margin-start">Перед тем как оставить часы.</h2>'
+            f'<div class="faq">{items}</div></div></section>')
+
+
+def block_contacts(prefix=''):
+    return (f'<section class="section section-dark"><div class="container contact-block">'
+            f'<div class="contact-head reveal"><div class="eyebrow">Контакты</div>'
+            f'<h2 class="display display-lg contact-title one-line">Мастерская на Петровке.</h2></div>'
+            f'<div class="contact-columns"><div class="contact-info reveal"><dl class="contact-panel">'
+            f'<div class="contact-line"><dt>Адрес</dt><dd>{ADDRESS["postal_code"]}, {ADDRESS_TEXT}</dd></div>'
+            f'<div class="contact-line"><dt>График</dt><dd>{HOURS_TEXT}</dd></div>'
+            f'<div class="contact-line"><dt>Телефон</dt><dd><a href="{PHONE_HREF}">{PHONE}</a></dd></div>'
+            f'</dl></div>{MAP_EMBED}</div></div></section>')
+
+
+def video_hero(title, label, breadcrumbs_html, prefix='', lead=''):
+    """Первый экран с видео на фоне — как на главной."""
+    p = prefix
+    lead_html = f'<p class="page-hero-lead">{escape(lead)}</p>' if lead else ''
+    return (f'<section class="page-hero page-hero-video">'
+            f'<div class="page-hero-media"><img src="{p}assets/images/hero-poster.webp" alt="">'
+            f'<video autoplay muted loop playsinline poster="{p}assets/images/hero-poster.webp">'
+            f'<source src="{p}assets/videos/hero-watch.mp4" type="video/mp4"></video></div>'
+            f'<div class="container page-hero-content">{breadcrumbs_html}'
+            f'<div class="eyebrow">{escape(label)}</div>'
+            f'<h1 class="display display-lg">{escape(title)}</h1>{lead_html}</div></section>')
+
+
 # HOME
 BRAND_DATA = {b['slug']: b for b in json.loads((ROOT/'data/brands.json').read_text())}
 featured_brands = [(slug,name) for slug,name in brands if BRAND_DATA[slug]['status'] == 'listed_on_source']
@@ -183,13 +283,13 @@ home=f'''
 
 <section class="section section-navy"><div class="container"><div class="brands-head brands-head-solo"><div><div class="eyebrow reveal">03 / Мануфактуры</div><h2 class="display display-lg reveal one-line">Часы, с которыми приходят не за «быстрым ремонтом».</h2></div></div><div class="brand-cloud">{brand_rows}</div><p class="brands-note">Независимая мастерская. Указание товарных знаков носит информационный характер и не означает официальную аффилиацию. Возможность конкретной работы, наличие компонентов и сроки подтверждаются после осмотра.</p><div class="mt-34"><a class="btn" href="brands/">Все бренды</a></div></div></section>
 
-<section class="section section-ivory"><div class="container"><div class="eyebrow reveal">04 / Процесс</div><h2 class="display display-lg reveal heading-margin-start one-line">От состояния к результату.</h2><div class="process-grid">{''.join([f'<div class="process-step reveal"><span class="n">{i+1:02}</span><h3>{title}</h3><p>{text}</p></div>' for i,(title,text) in enumerate([('Диагностика','Определяем состояние часов и характер вмешательства.'),('Согласование','Фиксируем перечень работ до их начала.'),('Работа','Выполняем согласованные операции без лишнего вмешательства.'),('Контроль','Проверяем параметры, относящиеся к выполненной работе.'),('Выдача','Передаём часы владельцу с понятным описанием результата.')])])}</div></div></section>
+{block_process()}
 
-<section class="section section-dark"><div class="container"><div class="brands-head video-head"><div><div class="eyebrow reveal">05 / Мастерская</div><h2 class="display display-lg reveal one-line">Чиним премиальные часы с 1991 года.</h2></div></div><div class="video-triptych"><div class="video-tile reveal"><img src="assets/images/detail-01.webp" alt="Механизм"><video autoplay muted loop playsinline poster="assets/images/detail-01.webp"><source src="assets/videos/detail-01.mp4" type="video/mp4"></video><span class="label">Осмотр / 01</span></div><div class="video-tile reveal"><img src="assets/images/detail-02.webp" alt="Микроработа"><video autoplay muted loop playsinline poster="assets/images/detail-02.webp"><source src="assets/videos/detail-02.mp4" type="video/mp4"></video><span class="label">Регулировка / 02</span></div><div class="video-tile reveal"><img src="assets/images/detail-03.webp" alt="Браслет"><video autoplay muted loop playsinline poster="assets/images/detail-03.webp"><source src="assets/videos/detail-03.mp4" type="video/mp4"></video><span class="label">Отделка / 03</span></div></div><div class="mt-110"><a class="btn" href="atelier/">Внутри мастерской</a></div></div></section>
+{block_triptych()}
 
 <section class="section section-navy"><div class="container price-layout"><div class="reveal"><div class="eyebrow">Цены и согласование</div><h2 class="display display-md">Цена после понимания задачи.</h2><a class="btn mt-28" href="prices/">Смотреть структуру прайса</a></div><div class="price-list reveal"><div class="price-row"><h3>Обслуживание механизма</h3><span>после диагностики</span></div><div class="price-row"><h3>Корпус и полировка</h3><span>по состоянию</span></div><div class="price-row"><h3>Стекло</h3><span>по модели</span></div><div class="price-row"><h3>Герметичность</h3><span>по задаче</span></div><div class="price-row"><h3>Сложные механизмы</h3><span>индивидуально</span></div></div></div></section>
 
-<section class="section section-ivory"><div class="container narrow"><div class="eyebrow reveal">Вопросы перед обращением</div><h2 class="display display-md reveal heading-margin-start">Перед тем как оставить часы.</h2><div class="faq">{faq_html}</div></div></section>
+{block_faq()}
 
 <section class="section section-dark"><div class="container contact-block"><div class="contact-head reveal"><div class="eyebrow">Контакты</div><h2 class="display display-lg contact-title one-line">Мастерская на Петровке.</h2></div><div class="contact-columns"><div class="contact-info reveal"><dl class="contact-panel"><div class="contact-line"><dt>Адрес</dt><dd>{ADDRESS["postal_code"]}, {ADDRESS_TEXT}</dd></div><div class="contact-line"><dt>График</dt><dd>{HOURS_TEXT}</dd></div><div class="contact-line"><dt>Телефон</dt><dd><a href="{PHONE_HREF}">{PHONE}</a></dd></div></dl></div><div class="contact-map"><iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A349d14082660d41000ccf910e5fae332e234360b34a1b731d98f4ddc441a9b1b&amp;source=constructor" width="100%" height="400" frameborder="0" loading="lazy" title="Мастерская на карте: улица Петровка, 23/10, строение 5"></iframe></div></div></div></section>
 </main>'''
@@ -230,7 +330,22 @@ body=page_hero('Бренды','Марки часов',1,'hero-poster.webp',bread
 for i,(slug,name) in enumerate(brands):
     d=ROOT/'brands'/slug; d.mkdir(parents=True,exist_ok=True)
     bc=breadcrumbs([('Бренды','../'),(name,None)],'../../')
-    body=page_hero(name,'Watch maison / service request',2,None,bc)+f'''<main><section class="section section-dark"><div class="container detail-layout"><div class="detail-sticky"><div class="brand-index-card"><span class="small">{i+1:02} / МАРКА ЧАСОВ</span><span class="name">{escape(name)}</span><span class="small">Возможность обслуживания уточняется для конкретной модели.</span></div></div><div class="detail-copy"><div class="eyebrow">{escape(name)} · Москва</div><h2>Запрос на обслуживание {escape(name)}</h2><p class="lead">Диагностика начинается с конкретной модели, состояния и истории часов — не с универсального прайса.</p><p>Для разных калибров, поколений и корпусов перечень возможных работ отличается. Перед началом вмешательства мастерская должна подтвердить техническую возможность ремонта и согласовать объём работ.</p><ul class="detail-list"><li>Диагностика механизма</li><li>Проверка состояния корпуса и внешних элементов</li><li>Согласование ремонта или обслуживания</li><li>Контроль после выполненных работ</li></ul><a class="btn" href="../../contacts/">Запросить диагностику</a><p class="small">Независимая мастерская. Упоминание {escape(name)} не означает официальную аффилиацию или авторизацию производителя.</p></div></div></section></main>'''
+    intro=(f'<section class="section section-dark"><div class="container brand-intro">'
+           f'<div class="brand-intro-copy reveal"><div class="eyebrow">Независимая мастерская</div>'
+           f'<h2 class="display display-md">Запрос на обслуживание {escape(name)}</h2>'
+           f'<p class="lead">Диагностика начинается с конкретной модели, состояния и истории часов — не с универсального прайса.</p>'
+           f'<p class="copy">Для разных калибров, поколений и корпусов перечень возможных работ отличается. '
+           f'Перед началом вмешательства мастерская подтверждает техническую возможность ремонта и согласовывает объём работ.</p>'
+           f'<a class="btn" href="{PHONE_HREF}">Позвонить {PHONE}</a></div>'
+           f'<div class="brand-intro-side reveal"><div class="brand-mark"><span>{escape(name)}</span></div>'
+           f'<ul class="detail-list"><li>Диагностика механизма</li><li>Проверка состояния корпуса и внешних элементов</li>'
+           f'<li>Согласование ремонта или обслуживания</li><li>Контроль после выполненных работ</li></ul>'
+           f'<p class="small">Независимая мастерская. Упоминание {escape(name)} не означает официальную аффилиацию '
+           f'или авторизацию производителя.</p></div></div></section>')
+    body=(video_hero(name, 'Марка часов', bc, '../../',
+                     f'Диагностика, обслуживание и восстановление часов {name} в Москве.')
+          + '<main>' + intro + block_process('../../') + block_triptych('../../')
+          + block_prices('../../') + block_faq('../../') + block_contacts('../../') + '</main>')
     brand_node = {'@type': 'Service', '@id': ORIGIN + f'/brands/{slug}/#service',
                   'name': f'Ремонт часов {name}',
                   'description': f'Диагностика и обслуживание часов {name} в независимой мастерской в Москве. Не официальный сервисный центр.',
