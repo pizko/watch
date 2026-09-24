@@ -58,7 +58,14 @@ for label,values in [('title',titles),('description',descriptions)]:
 if video_sources != {p.name for p in (ROOT/'assets/videos').glob('*.mp4')}: errors.append('Not all video files referenced')
 sitemap=ET.parse(ROOT/'sitemap.xml')
 locations=[x.text for x in sitemap.iter() if x.tag.endswith('}loc')]
-expected=[config['production_origin']+r for r in config['indexable_routes']] if config['environment']=='production' else []
+# indexable_routes может быть списком маршрутов или строкой 'all' — открыт весь сайт
+_allowed=config['indexable_routes']
+if config['environment']!='production':
+    expected=[]
+elif _allowed=='all':
+    expected=[config['production_origin']+'/'+x.relative_to(ROOT).as_posix().removesuffix('index.html') for x in pages]
+else:
+    expected=[config['production_origin']+r for r in _allowed]
 if sorted(locations)!=sorted(expected): errors.append('Sitemap contains unapproved routes')
 if errors: raise SystemExit('\n'.join(errors))
 print(f'PASS: {len(pages)} pages, {len(video_sources)} videos; metadata, links, images, schema and indexation policy')

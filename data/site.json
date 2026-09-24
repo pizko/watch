@@ -1,8 +1,8 @@
 {
-  "environment": "preview",
-  "production_origin": "https://remontiryemchasi.ru",
+  "environment": "production",
+  "production_origin": "https://xn----7sbbgpca1cvb4as0dve.xn--p1ai",
   "name": "Atelier 01",
-  "indexable_routes": [],
+  "indexable_routes": "all",
   "contacts": {
     "phone": "+7 916 731 49 07",
     "phone_href": "+79167314907",
@@ -46,5 +46,6 @@
       "source": "https://remontiryemchasi.ru/kontakty/",
       "checked_at": "2026-09-21"
     }
-  }
+  },
+  "production_origin_human": "https://часовое-ателье.рф"
 }

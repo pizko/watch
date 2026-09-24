@@ -122,7 +122,8 @@ def footer(prefix=''):
 def doc(title, description, body, depth=0, route='/', trail=None, schema_extra=None):
     prefix = rel_prefix(depth)
     canonical = CONFIG['production_origin'].rstrip('/') + route
-    indexable = CONFIG['environment'] == 'production' and route in CONFIG['indexable_routes']
+    allowed = CONFIG['indexable_routes']
+    indexable = CONFIG['environment'] == 'production' and (allowed == 'all' or route in allowed)
     robots = 'index,follow' if indexable else 'noindex,follow'
     PAGES.append((route, indexable))
     body = body.replace('<video autoplay muted loop playsinline', '<video data-lazy-video muted loop playsinline preload="none"')

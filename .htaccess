@@ -1,0 +1,24 @@
+# часовое-ателье.рф: один канонический адрес — https без www.
+# Без этого сайт открывается по четырём адресам сразу и поисковик видит копии.
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  <FilesMatch "\.(webp|jpg|jpeg|png|svg|css|js|mp4|woff2)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml
+</IfModule>
+
+AddType image/webp .webp
+DirectoryIndex index.html
+Options -Indexes
