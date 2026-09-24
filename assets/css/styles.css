@@ -332,15 +332,17 @@ textarea.field { min-height:90px; resize:vertical; }
 .intro-columns { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(28px,5vw,80px); align-items:start; }
 .intro-columns p { margin:0; }
 
-/* Заголовки разделов без соседней колонки — в одну строку на широком экране. */
+/* Заголовки разделов без соседней колонки.
+   Кегль задаём так, чтобы строка гарантированно помещалась в контейнер
+   min(1460px, 100vw - 64px). Переносы НЕ запрещаем: если места вдруг не
+   хватит, строка перенесётся, а не обрежется — секции стоят с overflow:hidden,
+   и обрезанный текст незаметен в проверках ширины документа. */
 .services-head-solo, .brands-head-solo { grid-template-columns:1fr; }
 .one-line { max-width:none; }
 @media (min-width:901px){
-  .one-line { white-space:nowrap; }
-  /* вводное утверждение тоже в строку — места на широком экране хватает */
-  .intro-statement { white-space:nowrap; font-size:min(6.2vw, 104px); }
-  .services-head-solo .one-line { font-size:clamp(58px, 7.6vw, 126px); }
-  .brands-head-solo .one-line { font-size:min(4.4vw, 74px); }
+  .intro-statement { font-size:min(6.3vw, 92px); }
+  .brands-head-solo .one-line { font-size:min(4.6vw, 67px); }
+  .video-head .one-line { font-size:min(6.9vw, 101px); }
 }
 @media (max-width:900px){
   .intro-columns { grid-template-columns:1fr; gap:22px; }
@@ -357,4 +359,13 @@ textarea.field { min-height:90px; resize:vertical; }
   .footer-brands { margin-top:36px; }
   .footer-brands-list { gap:8px 16px; }
   .footer-brands-list a { font-size:12px; }
+}
+
+/* Длинные русские слова («приблизительности») шире экрана телефона:
+   секции стоят с overflow:hidden, поэтому такой текст не растягивал страницу,
+   а молча обрезался. Разрешаем перенос по слогам и ужимаем кегль на узких. */
+h1, h2, h3 { hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; }
+@media (max-width:760px){
+  .intro-statement { font-size:clamp(32px, 8.6vw, 52px); }
+  .display-lg, .display-md { overflow-wrap:break-word; }
 }
