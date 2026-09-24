@@ -35,7 +35,10 @@ class Assets(HTMLParser):
         if tag == 'source' and a.get('type')=='video/mp4':
             if 'src' in a or not a.get('data-src'): errors.append(f'{self.path}: eager video source')
             video_sources.add(Path(a.get('data-src','')).name)
-        if tag == 'img' and not all(k in a for k in ('alt','width','height','loading')):
+        if tag == 'img' and not urlsplit(a.get('src','')).netloc \
+                and not all(k in a for k in ('alt','width','height','loading')):
+            # внешние пиксели счётчиков размеров не имеют — правило про сдвиг вёрстки
+            # касается только картинок самого сайта
             errors.append(f'{self.path}: missing image attributes')
 
 

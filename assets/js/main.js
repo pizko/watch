@@ -103,3 +103,19 @@
   // Update footer year.
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 })();
+
+/* Плавающая кнопка звонка: прячется, когда на экране контакты или подвал —
+   иначе она перекрывает карту и телефон, до которых человек уже долистал. */
+const callFab = document.querySelector('.call-fab');
+
+if (callFab && 'IntersectionObserver' in window) {
+  const zones = [...document.querySelectorAll('.contact-block, .contact-grid, .site-footer')];
+  if (zones.length) {
+    const seen = new Set();
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.isIntersecting ? seen.add(entry.target) : seen.delete(entry.target));
+      callFab.classList.toggle('is-hidden', seen.size > 0);
+    }, { threshold: 0.01 });
+    zones.forEach(zone => observer.observe(zone));
+  }
+}
