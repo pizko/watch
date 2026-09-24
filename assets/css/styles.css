@@ -369,3 +369,30 @@ h1, h2, h3 { hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; }
   .intro-statement { font-size:clamp(32px, 8.6vw, 52px); }
   .display-lg, .display-md { overflow-wrap:break-word; }
 }
+
+/* Блок цен: обе колонки начинаются от одной линейки и заканчиваются на одной —
+   раньше левая была короче правой и низ получался рваным. */
+.price-layout { align-items:stretch; }
+.price-layout > div:first-child {
+  display:flex; flex-direction:column;
+  border-top:1px solid var(--line-dark); padding-top:22px;
+}
+.price-layout > div:first-child .btn { margin-top:auto; align-self:flex-start; }
+.price-layout .price-list { margin:0; }
+
+/* Контакты: заголовок на всю ширину, под ним данные и карта одной высоты. */
+.contact-block { display:block; }
+.contact-head { margin-bottom:clamp(28px,4vw,56px); }
+.contact-head .contact-title { margin:20px 0 0; }
+.contact-columns { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(28px,5vw,70px); align-items:stretch; }
+.contact-info { display:flex; flex-direction:column; }
+.contact-info .contact-actions { margin-top:auto; padding-top:32px; }
+.contact-map { position:relative; min-height:400px; background:#0d1016; border:1px solid var(--line-dark); }
+.contact-map iframe { display:block; width:100%; height:100%; min-height:400px; border:0; filter:grayscale(1) contrast(1.04) brightness(.92); }
+@media (max-width:900px){
+  .contact-columns { grid-template-columns:1fr; }
+  .contact-info .contact-actions { padding-top:26px; }
+  .contact-map { min-height:320px; }
+  .contact-map iframe { min-height:320px; }
+  .price-layout > div:first-child .btn { margin-top:28px; }
+}
