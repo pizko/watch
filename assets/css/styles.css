@@ -337,9 +337,24 @@ textarea.field { min-height:90px; resize:vertical; }
 .one-line { max-width:none; }
 @media (min-width:901px){
   .one-line { white-space:nowrap; }
+  /* вводное утверждение тоже в строку — места на широком экране хватает */
+  .intro-statement { white-space:nowrap; font-size:min(6.2vw, 104px); }
   .services-head-solo .one-line { font-size:clamp(58px, 7.6vw, 126px); }
   .brands-head-solo .one-line { font-size:min(4.4vw, 74px); }
 }
 @media (max-width:900px){
   .intro-columns { grid-template-columns:1fr; gap:22px; }
+}
+
+/* Подвал — синий, как блок «Цены и согласование», и с перечнем марок. */
+.site-footer { background:var(--navy); }
+.footer-brands { margin-top:54px; padding-top:30px; border-top:1px solid var(--line-dark); }
+.footer-brands-title { display:block; margin-bottom:16px; font-size:10px; text-transform:uppercase; letter-spacing:.1em; opacity:.55; }
+.footer-brands-list { display:flex; flex-wrap:wrap; gap:8px 22px; }
+.footer-brands-list a { font-size:13px; letter-spacing:.01em; opacity:.72; transition:opacity .25s ease; }
+.footer-brands-list a:hover, .footer-brands-list a:focus-visible { opacity:1; }
+@media (max-width:720px){
+  .footer-brands { margin-top:36px; }
+  .footer-brands-list { gap:8px 16px; }
+  .footer-brands-list a { font-size:12px; }
 }
