@@ -323,3 +323,23 @@ textarea.field { min-height:90px; resize:vertical; }
 .pt-0 { padding-top:0; }
 .heading-margin-block { margin:24px 0; }
 .mt-70 { margin-top:70px; }
+
+/* Вводный блок: раньше слева стояла пустая колонка 280px, а весь текст жался
+   справа. Теперь заголовок и текст занимают всю ширину, текст — в две колонки. */
+.intro-wide { display:block; }
+.intro-wide .eyebrow { margin-bottom:28px; }
+.intro-wide .intro-statement { max-width:none; margin:0 0 56px; }
+.intro-columns { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(28px,5vw,80px); align-items:start; }
+.intro-columns p { margin:0; }
+
+/* Заголовки разделов без соседней колонки — в одну строку на широком экране. */
+.services-head-solo, .brands-head-solo { grid-template-columns:1fr; }
+.one-line { max-width:none; }
+@media (min-width:901px){
+  .one-line { white-space:nowrap; }
+  .services-head-solo .one-line { font-size:clamp(58px, 7.6vw, 126px); }
+  .brands-head-solo .one-line { font-size:min(4.4vw, 74px); }
+}
+@media (max-width:900px){
+  .intro-columns { grid-template-columns:1fr; gap:22px; }
+}
