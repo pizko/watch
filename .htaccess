@@ -8,6 +8,16 @@ RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# /brands/rolex → /brands/rolex/ сразу на https. Иначе слэш добавляет mod_dir,
+# и за прокси хостинга он уводит на http — лишний редирект в цепочке.
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1/ [L,R=301]
+
+# /index.html и /раздел/index.html — копии страниц; ведём на адрес со слэшем.
+RewriteCond %{THE_REQUEST} \s/(.*/)?index\.html[\s?]
+RewriteRule ^(.*/)?index\.html$ https://%{HTTP_HOST}/$1 [L,R=301]
+
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   <FilesMatch "\.(webp|jpg|jpeg|png|svg|css|js|mp4|woff2)$">
