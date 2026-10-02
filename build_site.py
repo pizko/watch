@@ -77,6 +77,7 @@ faqs = [
 # Размечаем только то, что подтверждено: организация, адрес, телефон, график,
 # услуги и вопросы-ответы. Ни цен, ни рейтингов, ни отзывов — таких данных нет.
 ORIGIN = CONFIG['production_origin'].rstrip('/')
+METRIKA = '''<!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113016242', 'ym');ym(113016242, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});</script><noscript><div><img src="https://mc.yandex.ru/watch/113016242" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->'''
 BIZ_ID = ORIGIN + '/#atelier'
 
 
@@ -147,6 +148,8 @@ def doc(title, description, body, depth=0, route='/', trail=None, schema_extra=N
     allowed = CONFIG['indexable_routes']
     indexable = CONFIG['environment'] == 'production' and (allowed == 'all' or route in allowed)
     robots = 'index,follow' if indexable else 'noindex,follow'
+    # Счётчик только в боевой сборке: просмотры preview не должны попадать в статистику сайта.
+    metrika = METRIKA if CONFIG['environment'] == 'production' else ''
     PAGES.append((route, indexable))
     body = body.replace('<video autoplay muted loop playsinline', '<video data-lazy-video muted loop playsinline preload="none"')
     body = re.sub(r'<source src="([^"]+\.mp4)"', r'<source data-src="\1"', body)
@@ -168,7 +171,7 @@ def doc(title, description, body, depth=0, route='/', trail=None, schema_extra=N
                       'publisher': {'@id': BIZ_ID}})
     schema = {'@context': 'https://schema.org', '@graph': graph}
     schema_json = json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c')
-    return f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}</title><meta name="description" content="{escape(description)}"><meta name="robots" content="{robots}"><link rel="canonical" href="{escape(canonical)}"><meta name="theme-color" content="#07090b"><meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(description)}"><meta property="og:url" content="{escape(canonical)}"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="{escape(title)}"><meta name="twitter:description" content="{escape(description)}"><link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml"><script type="application/ld+json">{schema_json}</script><link rel="stylesheet" href="{prefix}assets/css/styles.css"><!-- Yandex.Metrika counter --><script type="text/javascript">(function(m,e,t,r,i,k,a){{m[i]=m[i]||function(){{(m[i].a=m[i].a||[]).push(arguments)}};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {{if (document.scripts[j].src === r) {{ return; }}}}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}})(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113016242', 'ym');ym(113016242, 'init', {{ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true}});</script><noscript><div><img src="https://mc.yandex.ru/watch/113016242" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter --></head><body>{header(prefix)}{body}{footer(prefix)}<script src="{prefix}assets/js/main.js" defer></script></body></html>'''
+    return f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}</title><meta name="description" content="{escape(description)}"><meta name="robots" content="{robots}"><link rel="canonical" href="{escape(canonical)}"><meta name="theme-color" content="#07090b"><meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(description)}"><meta property="og:url" content="{escape(canonical)}"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="{escape(title)}"><meta name="twitter:description" content="{escape(description)}"><link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml"><script type="application/ld+json">{schema_json}</script><link rel="stylesheet" href="{prefix}assets/css/styles.css">{metrika}</head><body>{header(prefix)}{body}{footer(prefix)}<script src="{prefix}assets/js/main.js" defer></script></body></html>'''
 
 def breadcrumbs(items, prefix=''):
     home_href = prefix or './'
