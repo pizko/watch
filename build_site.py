@@ -44,7 +44,7 @@ brands = [
     ('cartier','Cartier'),('blancpain','Blancpain'),('iwc','IWC Schaffhausen'),('zenith','Zenith'),('ulysse-nardin','Ulysse Nardin'),
     ('girard-perregaux','Girard-Perregaux'),('hublot','Hublot'),('panerai','Panerai'),('chopard','Chopard'),('piaget','Piaget'),
     ('franck-muller','Franck Muller'),('parmigiani','Parmigiani Fleurier'),('h-moser','H. Moser & Cie.'),('breitling','Breitling'),
-    ('tag-heuer','TAG Heuer'),('tudor','Tudor'),('grand-seiko','Grand Seiko'),('longines','Longines'),('rado','Rado'),
+    ('tag-heuer','TAG Heuer'),('tudor','Tudor'),('grand-seiko','Grand Seiko'),('seiko','Seiko'),('longines','Longines'),('rado','Rado'),
     ('tissot','Tissot'),('maurice-lacroix','Maurice Lacroix'),('frederique-constant','Frederique Constant'),('oris','Oris')
 ]
 
@@ -272,7 +272,7 @@ def video_hero(title, label, breadcrumbs_html, prefix='', lead=''):
 
 # HOME
 BRAND_DATA = {b['slug']: b for b in json.loads((ROOT/'data/brands.json').read_text())}
-featured_brands = [(slug,name) for slug,name in brands if BRAND_DATA[slug]['status'] == 'listed_on_source']
+featured_brands = [(slug,name) for slug,name in brands if BRAND_DATA[slug]['status'] in ('listed_on_source', 'confirmed_by_owner')]
 service_items=''.join([f'''<a class="service-item" href="services/{slug}/" ><span class="index">{i+1:02}</span><h3>{escape(name)}</h3><div class="meta"><span>{escape(tag)}</span></div></a>''' for i,(slug,name,desc,tag) in enumerate(services)])
 brand_rows=''.join([f'''<a class="brand-row" href="brands/{slug}/"><span class="brand-no">{i+1:02}</span><span class="brand-name">{escape(name)}</span><span class="brand-tag">Подробнее</span></a>''' for i,(slug,name) in enumerate(featured_brands)])
 faq_html=''.join([f'''<div class="faq-item"><button class="faq-q" aria-expanded="false"><span>{escape(q)}</span><span class="faq-plus">+</span></button><div class="faq-a"><div class="faq-a-inner">{escape(a)}</div></div></div>''' for q,a in faqs])
@@ -410,7 +410,7 @@ BRAND_RU = {
     'iwc': 'ИВЦ Шаффхаузен', 'zenith': 'Зенит', 'ulysse-nardin': 'Улисс Нардин', 'girard-perregaux': 'Жирар-Перрего',
     'hublot': 'Хублот', 'panerai': 'Панерай', 'chopard': 'Шопард', 'piaget': 'Пьяже', 'franck-muller': 'Франк Мюллер',
     'parmigiani': 'Пармиджани', 'h-moser': 'Мозер', 'breitling': 'Брайтлинг', 'tag-heuer': 'Таг Хоер',
-    'tudor': 'Тюдор', 'grand-seiko': 'Гранд Сейко', 'longines': 'Лонжин', 'rado': 'Радо', 'tissot': 'Тиссот',
+    'tudor': 'Тюдор', 'grand-seiko': 'Гранд Сейко', 'seiko': 'Сейко', 'longines': 'Лонжин', 'rado': 'Радо', 'tissot': 'Тиссот',
     'maurice-lacroix': 'Морис Лакруа', 'frederique-constant': 'Фредерик Констант', 'oris': 'Орис',
 }
 for i,(slug,name) in enumerate(brands):

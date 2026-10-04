@@ -175,6 +175,13 @@
     "checked_at": "2026-09-21"
   },
   {
+    "slug": "seiko",
+    "name": "Seiko",
+    "status": "confirmed_by_owner",
+    "source": "подтверждено владельцем в переписке",
+    "checked_at": "2026-10-04"
+  },
+  {
     "slug": "longines",
     "name": "Longines",
     "status": "listed_on_source",
