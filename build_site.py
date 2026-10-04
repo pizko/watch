@@ -28,8 +28,11 @@ services = [
     ('full-service','Полное обслуживание механизма','Разборка, очистка, смазка, сборка, регулировка и контроль работы механизма.','ОБСЛУЖИВАНИЕ МЕХАНИЗМА'),
     ('movement-repair','Ремонт механизма','Диагностика неисправности и восстановление узлов механических и кварцевых часов.','РЕМОНТ КАЛИБРА'),
     ('polishing','Полировка и восстановление корпуса','Работа с полированными и сатинированными поверхностями корпуса и браслета.','КОРПУС И ОТДЕЛКА'),
+    ('diagnostics','Диагностика и регулировка хода','Находим причину остановки или неточного хода и регулируем механизм. Механические и кварцевые часы.','ТОЧНОСТЬ ХОДА'),
     ('glass-replacement','Замена стекла','Подбор и замена стекла с последующей проверкой посадки и состояния корпуса.','СТЕКЛО'),
     ('water-resistance','Проверка герметичности','Контроль герметичности после вмешательства и перед повседневной эксплуатацией.','ГЕРМЕТИЧНОСТЬ'),
+    ('battery','Замена батарейки','Замена элемента питания в кварцевых часах с проверкой хода и герметичности после закрытия корпуса.','КВАРЦЕВЫЕ ЧАСЫ'),
+    ('bracelet','Браслеты и ремешки','Укорачивание браслета, замена ремешка или браслета, ремонт застёжки.','БРАСЛЕТ И РЕМЕШОК'),
     ('automatic-winding','Ремонт автоподзавода','Диагностика ротора и узлов автоматического подзавода.','АВТОПОДЗАВОД'),
     ('chronograph','Хронографы и сложные механизмы','Работы со сложными калибрами требуют предварительной диагностики и согласования.','СЛОЖНЫЕ МЕХАНИЗМЫ'),
     ('restoration','Реставрация','Деликатное восстановление корпуса, элементов внешнего оформления и отдельных узлов.','РЕСТАВРАЦИЯ'),
@@ -276,7 +279,7 @@ faq_html=''.join([f'''<div class="faq-item"><button class="faq-q" aria-expanded=
 
 home=f'''
 <main>
-<section class="hero"><div class="hero-media"><img src="assets/images/hero-poster.webp" alt=""><video autoplay muted loop playsinline poster="assets/images/hero-poster.webp"><source src="assets/videos/hero-watch.mp4" type="video/mp4"></video></div><div class="container hero-inner"><div class="hero-copy reveal"><div class="eyebrow">Независимая мастерская · Москва</div><h1 class="display display-xl">Ремонт и восстановление<br>премиальных часов.</h1><p class="hero-sub">Швейцарские и брендовые часы: диагностика, обслуживание, восстановление корпуса и механизма. Мастерская на Петровке.</p><div class="hero-actions"><a class="btn" href="contacts/">Записаться на диагностику</a></div></div><div class="hero-bottom"><div class="hero-brands"><span>Rolex</span><span>Patek Philippe</span><span>Audemars Piguet</span><span>Omega</span><span>Cartier</span></div><div class="hero-scroll">Листайте вниз</div></div></div></section>
+<section class="hero"><div class="hero-media"><img src="assets/images/hero-poster.webp" alt=""><video autoplay muted loop playsinline poster="assets/images/hero-poster.webp"><source src="assets/videos/hero-watch.mp4" type="video/mp4"></video></div><div class="container hero-inner"><div class="hero-copy reveal"><div class="eyebrow">Независимая мастерская · Москва</div><h1 class="display display-xl">Часовая мастерская:<br>ремонт швейцарских часов.</h1><p class="hero-sub">Швейцарские и брендовые часы: диагностика, обслуживание, восстановление корпуса и механизма. Мастерская на Петровке.</p><div class="hero-actions"><a class="btn" href="contacts/">Записаться на диагностику</a></div></div><div class="hero-bottom"><div class="hero-brands"><span>Rolex</span><span>Patek Philippe</span><span>Audemars Piguet</span><span>Omega</span><span>Cartier</span></div><div class="hero-scroll">Листайте вниз</div></div></div></section>
 
 <section class="section section-ivory"><div class="container intro-wide"><div class="eyebrow reveal">01 / Мастерская</div><h2 class="display display-lg intro-statement reveal">Механика не терпит приблизительности.</h2><div class="intro-columns reveal"><p class="lead">Часы высокого класса требуют не громких обещаний, а точной диагностики, аккуратной работы и понятного согласования каждого вмешательства.</p><p class="copy">Сначала диагностика и понятный ответ, что с часами. Затем согласование объёма и цены. Только после этого — работа и проверка результата.</p></div></div></section>
 
@@ -306,20 +309,23 @@ home_schema = [
                           'url': ORIGIN + f'/services/{slug}/'}
                          for i, (slug, name, desc, tag) in enumerate(services)]},
 ]
-(ROOT/'index.html').write_text(doc('Ремонт швейцарских часов в Москве — мастерская на Петровке','Диагностика, обслуживание и восстановление швейцарских часов в Москве. Независимая часовая мастерская на Петровке.',home,0,schema_extra=home_schema),encoding='utf-8')
+(ROOT/'index.html').write_text(doc('Ремонт часов в Москве — часовая мастерская на Петровке','Ремонт швейцарских часов в Москве: диагностика, обслуживание механизма, замена батарейки и стекла, полировка. Независимая часовая мастерская на Петровке.',home,0,schema_extra=home_schema),encoding='utf-8')
 
 # SERVICES INDEX
 (ROOT/'services').mkdir(exist_ok=True)
 service_cards=''.join([f'''<a class="content-card" href="{slug}/"><div><div class="eyebrow">{i+1:02} / {escape(tag)}</div><h2>{escape(name)}</h2><p>{escape(desc)}</p></div><span>Подробнее</span></a>''' for i,(slug,name,desc,tag) in enumerate(services)])
 body=(video_hero('Услуги','Услуги мастерской',breadcrumbs([('Услуги',None)],'../'),'../',
-                'Полное обслуживание, ремонт механизмов, полировка, стекло, герметичность и сложные калибры.')
+                'Обслуживание и ремонт механизмов, точность хода, батарейка, стекло, браслеты, полировка, герметичность и сложные калибры.')
       + f'''<main><section class="section section-dark pt-0"><div class="container content-grid">{service_cards}</div></section>'''
       + block_process('../') + block_prices('../') + block_faq('../') + block_contacts('../') + '</main>')
-(ROOT/'services'/'index.html').write_text(doc('Услуги часовой мастерской — ремонт и обслуживание часов','Полное обслуживание, ремонт механизмов, полировка, стекло, герметичность, автоподзавод и сложные механизмы.',body,1,route="/services/",trail=[('Услуги','/services/')],schema_extra=[{'@type':'ItemList','itemListElement':[{'@type':'ListItem','position':i+1,'name':name,'url':ORIGIN+f'/services/{slug}/'} for i,(slug,name,desc,tag) in enumerate(services)]}]),encoding='utf-8')
+(ROOT/'services'/'index.html').write_text(doc('Услуги часовой мастерской — ремонт и обслуживание часов','Ремонт часов в Москве: обслуживание механизма, регулировка хода, замена батарейки, стекла и ремешка, полировка, герметичность, сложные механизмы.',body,1,route="/services/",trail=[('Услуги','/services/')],schema_extra=[{'@type':'ItemList','itemListElement':[{'@type':'ListItem','position':i+1,'name':name,'url':ORIGIN+f'/services/{slug}/'} for i,(slug,name,desc,tag) in enumerate(services)]}]),encoding='utf-8')
 
 # H1 услуг со словом «часов»: по нему ищут, а название в карточках остаётся коротким
 SERVICE_H1 = {
-    'full-service': 'Полное обслуживание механизма часов',
+    'full-service': 'Чистка и полное обслуживание механизма часов',
+    'diagnostics': 'Часы остановились, отстают или спешат',
+    'battery': 'Замена батарейки в часах',
+    'bracelet': 'Замена ремешка и ремонт браслета часов',
     'movement-repair': 'Ремонт механизма часов',
     'polishing': 'Полировка и восстановление корпуса часов',
     'glass-replacement': 'Замена стекла часов',
@@ -328,6 +334,38 @@ SERVICE_H1 = {
     'chronograph': 'Ремонт хронографов и сложных механизмов',
     'restoration': 'Реставрация часов',
 }
+# Title и description под частотные запросы; остальные услуги — по общему шаблону
+SERVICE_META = {
+    'full-service': ('Чистка и обслуживание механизма часов в Москве — часовая мастерская',
+                     'Чистка, смазка и полное обслуживание механизма часов в независимой мастерской на Петровке. Объём работ и стоимость — после осмотра.'),
+    'diagnostics': ('Часы остановились, отстают или спешат — ремонт в Москве',
+                    'Часы остановились, стали отставать или спешить: диагностика причины и регулировка точности хода в часовой мастерской на Петровке.'),
+    'battery': ('Замена батарейки в часах в Москве — часовая мастерская',
+                'Замена батарейки в кварцевых часах с проверкой хода и герметичности после закрытия корпуса. Часовая мастерская на Петровке.'),
+    'bracelet': ('Замена ремешка, укоротить браслет часов в Москве',
+                 'Укоротить браслет, заменить ремешок или браслет, отремонтировать застёжку часов. Часовая мастерская на Петровке.'),
+}
+
+# Свой текст для страниц, где у запроса понятный интент. Только общие сведения
+# о работе — без цен, сроков и гарантий, пока они не подтверждены.
+SERVICE_EXTRA = {
+    'diagnostics': [
+        ('Часы остановились', 'У кварцевых часов чаще всего села батарейка, но остановка бывает и из-за окисления контактов или попавшей влаги. Механические могут встать из-за загустевшей смазки, повреждённой оси баланса или проблем с пружиной. Причину показывает осмотр механизма.'),
+        ('Часы отстают или спешат', 'Отклонение хода появляется из-за износа смазки, намагничивания после контакта с телефоном, сумкой или колонкой, удара или долгого перерыва в обслуживании. Мастер проверяет ход в нескольких положениях и решает, достаточно ли регулировки или нужно обслуживание механизма.'),
+        ('Что сделать до визита', 'Не открывайте корпус и не пытайтесь подкрутить головку с усилием. Если под стеклом появился конденсат, не нагревайте часы — принесите их как можно скорее: влага вредит механизму и циферблату.'),
+    ],
+    'battery': [
+        ('Почему не только батарейка', 'При вскрытии корпуса снимается крышка и затрагиваются уплотнения. Поэтому после замены элемента питания мастер проверяет ход часов и посадку крышки, а при необходимости — герметичность.'),
+        ('Когда менять', 'Явный признак — остановка часов или секундная стрелка, которая прыгает через несколько делений. Не держите севшую батарейку в часах долго: она может протечь и повредить механизм.'),
+        ('Какие часы', 'Кварцевые наручные часы швейцарских и других марок, в том числе с хронографом. Возможность работы с конкретной моделью уточняется при обращении.'),
+    ],
+    'bracelet': [
+        ('Укоротить браслет', 'Подгоняем металлический браслет по руке, убирая лишние звенья. Снятые звенья стоит сохранить: с ними браслет можно вернуть к исходной длине.'),
+        ('Замена ремешка или браслета', 'Подбираем ремешок или браслет под ширину и крепление корпуса, переставляем застёжку и проверяем надёжность посадки.'),
+        ('Ремонт застёжки', 'Если застёжка раскрывается сама или не фиксируется, мастер оценивает, можно ли её восстановить. Подробнее — по телефону или при осмотре.'),
+    ],
+}
+
 for i,(slug,name,desc,tag) in enumerate(services):
     d=ROOT/'services'/slug; d.mkdir(parents=True,exist_ok=True)
     bc=breadcrumbs([('Услуги','../'),(name,None)],'../../')
@@ -335,7 +373,8 @@ for i,(slug,name,desc,tag) in enumerate(services):
             f'<div class="detail-sticky reveal"><img src="../../assets/images/detail-0{(i%3)+1}.webp" alt="Иллюстративный макрокадр часового механизма"></div>'
             f'<div class="detail-copy reveal"><div class="eyebrow">Независимая мастерская</div><h2>{escape(name)}</h2>'
             f'<p class="lead">{escape(desc)}</p>'
-            f'<p>Конкретный объём вмешательства определяется после осмотра. Для часов высокого класса важно сохранить '
+            + ''.join(f'<h3>{escape(h)}</h3><p>{escape(t)}</p>' for h, t in SERVICE_EXTRA.get(slug, []))
+            + f'<p>Конкретный объём вмешательства определяется после осмотра. Для часов высокого класса важно сохранить '
             f'исходную геометрию деталей и не выполнять дополнительные операции без необходимости.</p>'
             f'<ul class="detail-list"><li>Первичный осмотр и фиксация состояния</li>'
             f'<li>Согласование необходимого объёма работ</li><li>Выполнение согласованной операции</li>'
@@ -350,7 +389,9 @@ for i,(slug,name,desc,tag) in enumerate(services):
                     'serviceType': 'Ремонт и обслуживание часов',
                     'provider': {'@id': BIZ_ID},
                     'areaServed': {'@type': 'City', 'name': 'Москва'}}
-    d.joinpath('index.html').write_text(doc(f'{name} часов в Москве — часовая мастерская',f'{name}: диагностика и обслуживание в независимой мастерской на Петровке. Стоимость после осмотра.',body,2,route=f"/services/{slug}/",trail=[('Услуги','/services/'),(name,f'/services/{slug}/')],schema_extra=[service_node]),encoding='utf-8')
+    title, meta = SERVICE_META.get(slug, (f'{name} часов в Москве — часовая мастерская',
+                                          f'{name}: диагностика и обслуживание в независимой мастерской на Петровке. Стоимость после осмотра.'))
+    d.joinpath('index.html').write_text(doc(title, meta,body,2,route=f"/services/{slug}/",trail=[('Услуги','/services/'),(name,f'/services/{slug}/')],schema_extra=[service_node]),encoding='utf-8')
 
 # BRANDS
 (ROOT/'brands').mkdir(exist_ok=True)
@@ -399,7 +440,7 @@ body=(video_hero('Цены','Цены: сначала согласование',
 
 # ATELIER
 (ROOT/'atelier').mkdir(exist_ok=True)
-body=(video_hero('Мастерская','Мастерская и ремесло',breadcrumbs([('Мастерская',None)],'../'),'../',
+body=(video_hero('Часовая мастерская на Петровке','Мастерская и ремесло',breadcrumbs([('Мастерская',None)],'../'),'../',
                 'Как устроена работа с изделием: осмотр, согласование, вмешательство и контроль.')
       + '''<main><section class="section section-dark"><div class="container craft-grid"><div class="media-frame"><img src="../assets/images/watchmaker.webp" alt="Часовщик за работой"><video autoplay muted loop playsinline poster="../assets/images/watchmaker.webp"><source src="../assets/videos/watchmaker.mp4" type="video/mp4"></video><div class="media-caption"><span>Ручная работа · макросъёмка</span><span>01</span></div></div><div class="craft-copy"><div><div class="eyebrow">Точность важнее оформления</div><h2 class="display display-md">Как мы работаем с часами.</h2><p class="copy">Каждые часы проходят один и тот же путь: осмотр, согласование, работа и проверка. Без сюрпризов в счёте и без лишнего вмешательства в механизм.</p></div></div></div></section>'''
       + block_process('../') + block_triptych('../') + block_prices('../') + block_contacts('../') + '</main>')
@@ -407,7 +448,7 @@ body=(video_hero('Мастерская','Мастерская и ремесло'
 
 # CONTACTS
 (ROOT/'contacts').mkdir(exist_ok=True)
-body=(video_hero('Контакты','Петровка · Москва',breadcrumbs([('Контакты',None)],'../'),'../',
+body=(video_hero('Контакты часовой мастерской','Петровка · Москва',breadcrumbs([('Контакты',None)],'../'),'../',
                 'Запись на диагностику и обслуживание часов в мастерской на Петровке.')
       + '<main>' + block_contacts('../') + block_prices('../') + block_faq('../') + '</main>')
 (ROOT/'contacts'/'index.html').write_text(doc('Контакты часовой мастерской на Петровке','Запись на диагностику и обслуживание часов в независимой мастерской на Петровке в Москве.',body,1,route="/contacts/",trail=[('Контакты','/contacts/')],schema_extra=[{'@type':'ContactPage','@id':ORIGIN+'/contacts/#contact','mainEntity':{'@id':BIZ_ID}}]),encoding='utf-8')

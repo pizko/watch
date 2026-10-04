@@ -220,6 +220,7 @@ video[hidden] { display:none; }
 .detail-sticky img { aspect-ratio:4/5; object-fit:cover; filter:grayscale(1); }
 .detail-copy > * + * { margin-top:32px; }
 .detail-copy h2 { font-family:var(--serif); font-size:clamp(38px,4vw,68px); font-weight:400; letter-spacing:-.03em; line-height:1; }
+.detail-copy h3 { font-family:var(--serif); font-size:clamp(24px,2.2vw,32px); font-weight:400; letter-spacing:-.02em; line-height:1.1; }
 .detail-copy p { font-size:15px; line-height:1.8; opacity:.7; }
 .detail-list { border-top:1px solid var(--line-dark); }
 .detail-list li { list-style:none; padding:16px 0; border-bottom:1px solid var(--line-dark); font-size:13px; opacity:.74; }
