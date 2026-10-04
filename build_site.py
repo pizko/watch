@@ -401,12 +401,25 @@ body=(video_hero('Бренды','Марки часов',breadcrumbs([('Брен�
       + f'''<main><section class="section section-navy"><div class="container"><div class="brand-index-grid">{brand_cards}</div><p class="brands-note">Независимая мастерская. Не является официальным сервисным центром и не аффилирована с указанными производителями. Все товарные знаки принадлежат их правообладателям.</p></div></section>'''
       + block_process('../') + block_prices('../') + block_faq('../') + block_contacts('../') + '</main>')
 (ROOT/'brands'/'index.html').write_text(doc('Ремонт часов Rolex, Patek Philippe, Omega и других брендов','Независимое обслуживание часов ведущих швейцарских и международных мануфактур в Москве.',body,1,route="/brands/",trail=[('Бренды','/brands/')],schema_extra=[{'@type':'ItemList','itemListElement':[{'@type':'ListItem','position':i+1,'name':name,'url':ORIGIN+f'/brands/{slug}/'} for i,(slug,name) in enumerate(featured_brands)]}]),encoding='utf-8')
+# Русское написание марок: так ищут заметную часть запросов (Wordstat, Москва, 10.2026:
+# «ремонт часов омега» 70 против «omega» 9, «радо» 46 против 28, «картье» 22 против 9)
+BRAND_RU = {
+    'rolex': 'Ролекс', 'patek-philippe': 'Патек Филипп', 'audemars-piguet': 'Одемар Пиге',
+    'vacheron-constantin': 'Вашерон Константин', 'breguet': 'Бреге', 'jaeger-lecoultre': 'Жагер-Лекультр',
+    'a-lange-soehne': 'Ланге и Зёне', 'omega': 'Омега', 'cartier': 'Картье', 'blancpain': 'Бланпен',
+    'iwc': 'ИВЦ Шаффхаузен', 'zenith': 'Зенит', 'ulysse-nardin': 'Улисс Нардин', 'girard-perregaux': 'Жирар-Перрего',
+    'hublot': 'Хублот', 'panerai': 'Панерай', 'chopard': 'Шопард', 'piaget': 'Пьяже', 'franck-muller': 'Франк Мюллер',
+    'parmigiani': 'Пармиджани', 'h-moser': 'Мозер', 'breitling': 'Брайтлинг', 'tag-heuer': 'Таг Хоер',
+    'tudor': 'Тюдор', 'grand-seiko': 'Гранд Сейко', 'longines': 'Лонжин', 'rado': 'Радо', 'tissot': 'Тиссот',
+    'maurice-lacroix': 'Морис Лакруа', 'frederique-constant': 'Фредерик Констант', 'oris': 'Орис',
+}
 for i,(slug,name) in enumerate(brands):
+    ru = BRAND_RU[slug]
     d=ROOT/'brands'/slug; d.mkdir(parents=True,exist_ok=True)
     bc=breadcrumbs([('Бренды','../'),(name,None)],'../../')
     intro=(f'<section class="section section-dark"><div class="container brand-intro">'
            f'<div class="brand-intro-copy reveal"><div class="eyebrow">Независимая мастерская</div>'
-           f'<h2 class="display display-md">Запрос на обслуживание {escape(name)}</h2>'
+           f'<h2 class="display display-md">Обслуживание часов {escape(ru)}</h2>'
            f'<p class="lead">Диагностика начинается с конкретной модели, состояния и истории часов — не с универсального прайса.</p>'
            f'<p class="copy">Для разных калибров, поколений и корпусов перечень возможных работ отличается. '
            f'Перед началом вмешательства мастерская подтверждает техническую возможность ремонта и согласовывает объём работ.</p>'
@@ -417,16 +430,17 @@ for i,(slug,name) in enumerate(brands):
            f'<p class="small">Независимая мастерская. Упоминание {escape(name)} не означает официальную аффилиацию '
            f'или авторизацию производителя.</p></div></div></section>')
     body=(video_hero(f'Ремонт часов {name}', 'Марка часов', bc, '../../',
-                     f'Диагностика, обслуживание и восстановление часов {name} в Москве.')
+                     f'Диагностика, обслуживание и восстановление часов {name} ({ru}) в Москве.')
           + '<main>' + intro + block_process('../../') + block_triptych('../../')
           + block_prices('../../') + block_faq('../../') + block_contacts('../../') + '</main>')
     brand_node = {'@type': 'Service', '@id': ORIGIN + f'/brands/{slug}/#service',
                   'name': f'Ремонт часов {name}',
+                  'alternateName': f'Ремонт часов {ru}',
                   'description': f'Диагностика и обслуживание часов {name} в независимой мастерской в Москве. Не официальный сервисный центр.',
                   'serviceType': 'Ремонт и обслуживание часов',
                   'provider': {'@id': BIZ_ID},
                   'areaServed': {'@type': 'City', 'name': 'Москва'}}
-    d.joinpath('index.html').write_text(doc(f'Ремонт часов {name} в Москве — независимая мастерская',f'Диагностика и обслуживание часов {name} в Москве. Независимая мастерская на Петровке.',body,2,route=f"/brands/{slug}/",trail=[('Бренды','/brands/'),(name,f'/brands/{slug}/')],schema_extra=[brand_node]),encoding='utf-8')
+    d.joinpath('index.html').write_text(doc(f'Ремонт часов {name} ({ru}) в Москве — независимая мастерская',f'Ремонт часов {ru} ({name}) в Москве: диагностика и обслуживание в независимой мастерской на Петровке.',body,2,route=f"/brands/{slug}/",trail=[('Бренды','/brands/'),(name,f'/brands/{slug}/')],schema_extra=[brand_node]),encoding='utf-8')
 
 # PRICES
 (ROOT/'prices').mkdir(exist_ok=True)
