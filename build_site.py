@@ -142,8 +142,8 @@ def header(prefix=''):
 def footer(prefix=''):
     FOOTER_BRANDS = ''.join(
         f'<a href="{prefix}brands/{slug}/">{escape(name)}</a>' for slug, name in brands)
-    return f'''<footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand">ЧАСОВАЯ<br>МАСТЕРСКАЯ</div><nav class="footer-nav"><a href="{prefix}services/">Услуги</a><a href="{prefix}brands/">Бренды</a><a href="{prefix}prices/">Цены</a><a href="{prefix}atelier/">Мастерская</a><a href="{prefix}contacts/">Контакты</a></nav><div class="footer-meta"><a href="{PHONE_HREF}">{PHONE}</a><a href="{prefix}contacts/">{ADDRESS_TEXT}</a><span>{HOURS_TEXT}</span></div></div>
-<div class="footer-brands"><span class="footer-brands-title">Марки часов</span><div class="footer-brands-list">{FOOTER_BRANDS}</div></div><div class="footer-bottom"><span>© <span data-year></span> Независимая часовая мастерская</span><span>Независимая мастерская. Не является официальным сервисным центром и не аффилирована с указанными производителями.</span></div></div></footer><a class="call-fab" href="{PHONE_HREF}" aria-label="Позвонить {PHONE}"><span>Позвонить</span></a><div class="toast"></div>'''
+    return f'''<footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand">ЧАСОВАЯ<br>МАСТЕРСКАЯ</div><nav class="footer-nav"><a href="{prefix}services/">Услуги</a><a href="{prefix}brands/">Бренды</a><a href="{prefix}prices/">Цены</a><a href="{prefix}atelier/">Мастерская</a><a href="{prefix}articles/">Статьи</a><a href="{prefix}contacts/">Контакты</a></nav><div class="footer-meta"><a href="{PHONE_HREF}">{PHONE}</a><a href="{prefix}contacts/">{ADDRESS_TEXT}</a><span>{HOURS_TEXT}</span></div></div>
+<div class="footer-brands"><span class="footer-brands-title">Марки часов</span><div class="footer-brands-list">{FOOTER_BRANDS}</div></div><div class="footer-bottom"><span>© <span data-year></span> Независимая часовая мастерская · <a href="{prefix}privacy/">Политика конфиденциальности</a></span><span>Независимая мастерская. Не является официальным сервисным центром и не аффилирована с указанными производителями.</span></div></div></footer><a class="call-fab" href="{PHONE_HREF}" aria-label="Позвонить {PHONE}"><span>Позвонить</span></a><div class="toast"></div>'''
 
 def doc(title, description, body, depth=0, route='/', trail=None, schema_extra=None):
     prefix = rel_prefix(depth)
@@ -246,6 +246,21 @@ def block_faq(prefix=''):
             f'<div class="faq">{items}</div></div></section>')
 
 
+def lead_form(prefix=''):
+    """Короткая заявка: телефон обязателен, остальное — по желанию. Отправка — /send.php → Telegram."""
+    return (f'<form class="lead-form" action="/send.php" method="post" novalidate>'
+            f'<div class="lead-form-title">Оставить заявку</div>'
+            f'<p class="lead-form-note">Опишите часы и что случилось — мастер перезвонит и подскажет, что делать.</p>'
+            f'<label><span>Телефон</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" required placeholder="+7 ___ ___-__-__"></label>'
+            f'<label><span>Имя</span><input type="text" name="name" autocomplete="name" maxlength="80"></label>'
+            f'<label><span>Марка и что случилось</span><textarea name="message" rows="3" maxlength="1000" placeholder="Например: Omega, остановились после удара"></textarea></label>'
+            f'<input class="lead-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">'
+            f'<input type="hidden" name="ts" value="">'
+            f'<button class="btn" type="submit">Отправить заявку</button>'
+            f'<p class="lead-form-consent">Нажимая кнопку, вы соглашаетесь с <a href="{prefix}privacy/">политикой обработки персональных данных</a>.</p>'
+            f'</form>')
+
+
 def block_contacts(prefix=''):
     return (f'<section class="section section-dark"><div class="container contact-block">'
             f'<div class="contact-head reveal"><div class="eyebrow">Контакты</div>'
@@ -254,7 +269,7 @@ def block_contacts(prefix=''):
             f'<div class="contact-line"><dt>Адрес</dt><dd>{ADDRESS["postal_code"]}, {ADDRESS_TEXT}</dd></div>'
             f'<div class="contact-line"><dt>График</dt><dd>{HOURS_TEXT}</dd></div>'
             f'<div class="contact-line"><dt>Телефон</dt><dd><a href="{PHONE_HREF}">{PHONE}</a></dd></div>'
-            f'</dl></div>{MAP_EMBED}</div></div></section>')
+            f'</dl>{lead_form(prefix)}</div>{MAP_EMBED}</div></div></section>')
 
 
 def video_hero(title, label, breadcrumbs_html, prefix='', lead=''):
@@ -297,7 +312,7 @@ home=f'''
 
 {block_faq()}
 
-<section class="section section-dark"><div class="container contact-block"><div class="contact-head reveal"><div class="eyebrow">Контакты</div><h2 class="display display-lg contact-title one-line">Мастерская на Петровке.</h2></div><div class="contact-columns"><div class="contact-info reveal"><dl class="contact-panel"><div class="contact-line"><dt>Адрес</dt><dd>{ADDRESS["postal_code"]}, {ADDRESS_TEXT}</dd></div><div class="contact-line"><dt>График</dt><dd>{HOURS_TEXT}</dd></div><div class="contact-line"><dt>Телефон</dt><dd><a href="{PHONE_HREF}">{PHONE}</a></dd></div></dl></div><div class="contact-map"><iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A349d14082660d41000ccf910e5fae332e234360b34a1b731d98f4ddc441a9b1b&amp;source=constructor" width="100%" height="400" frameborder="0" loading="lazy" title="Мастерская на карте: улица Петровка, 23/10, строение 5"></iframe></div></div></div></section>
+{block_contacts()}
 </main>'''
 home_schema = [
     {'@type': 'FAQPage', '@id': ORIGIN + '/#faq',
@@ -366,6 +381,12 @@ SERVICE_EXTRA = {
     ],
 }
 
+_ARTS = {a['slug']: a for a in json.loads((ROOT/'data/articles.json').read_text())}
+SERVICE_ARTICLES = {}
+for _a in _ARTS.values():
+    for _n, _href in _a['related']:
+        SERVICE_ARTICLES.setdefault(_href.split('/')[1], []).append(_a)
+
 for i,(slug,name,desc,tag) in enumerate(services):
     d=ROOT/'services'/slug; d.mkdir(parents=True,exist_ok=True)
     bc=breadcrumbs([('Услуги','../'),(name,None)],'../../')
@@ -380,7 +401,9 @@ for i,(slug,name,desc,tag) in enumerate(services):
             f'<li>Согласование необходимого объёма работ</li><li>Выполнение согласованной операции</li>'
             f'<li>Проверка работы часов после ремонта</li>'
             f'<li>Рекомендации по дальнейшей эксплуатации</li></ul>'
-            f'<a class="btn" href="{PHONE_HREF}">Позвонить {PHONE}</a></div></div></section>')
+            + ''.join(f'<p class="detail-article">Статья по теме: <a href="../../articles/{a["slug"]}/">{escape(a["title"])}</a></p>'
+                      for a in SERVICE_ARTICLES.get(slug, []))
+            + f'<a class="btn" href="{PHONE_HREF}">Позвонить {PHONE}</a></div></div></section>')
     body=(video_hero(SERVICE_H1.get(slug, name), tag, bc, '../../', desc)
           + '<main>' + detail + block_process('../../') + block_triptych('../../')
           + block_prices('../../') + block_faq('../../') + block_contacts('../../') + '</main>')
@@ -413,8 +436,12 @@ BRAND_RU = {
     'tudor': 'Тюдор', 'grand-seiko': 'Гранд Сейко', 'seiko': 'Сейко', 'longines': 'Лонжин', 'rado': 'Радо', 'tissot': 'Тиссот',
     'maurice-lacroix': 'Морис Лакруа', 'frederique-constant': 'Фредерик Констант', 'oris': 'Орис',
 }
+# Свой текст для марок со спросом (Wordstat, Москва, 10.2026) — общие сведения о механизмах
+# и типичных работах, без обещаний конкретного ремонта
+BRAND_TEXT = json.loads((ROOT/'data/brand_texts.json').read_text())
 for i,(slug,name) in enumerate(brands):
     ru = BRAND_RU[slug]
+    brand_extra = ''.join(f'<h3>{escape(h)}</h3><p class="copy">{escape(t)}</p>' for h, t in BRAND_TEXT.get(slug, []))
     d=ROOT/'brands'/slug; d.mkdir(parents=True,exist_ok=True)
     bc=breadcrumbs([('Бренды','../'),(name,None)],'../../')
     intro=(f'<section class="section section-dark"><div class="container brand-intro">'
@@ -423,6 +450,7 @@ for i,(slug,name) in enumerate(brands):
            f'<p class="lead">Диагностика начинается с конкретной модели, состояния и истории часов — не с универсального прайса.</p>'
            f'<p class="copy">Для разных калибров, поколений и корпусов перечень возможных работ отличается. '
            f'Перед началом вмешательства мастерская подтверждает техническую возможность ремонта и согласовывает объём работ.</p>'
+           f'{brand_extra}'
            f'<a class="btn" href="{PHONE_HREF}">Позвонить {PHONE}</a></div>'
            f'<div class="brand-intro-side reveal"><div class="brand-mark"><span>{escape(name)}</span></div>'
            f'<ul class="detail-list"><li>Диагностика механизма</li><li>Проверка состояния корпуса и внешних элементов</li>'
@@ -466,6 +494,56 @@ body=(video_hero('Контакты часовой мастерской','Пет�
                 'Запись на диагностику и обслуживание часов в мастерской на Петровке.')
       + '<main>' + block_contacts('../') + block_prices('../') + block_faq('../') + '</main>')
 (ROOT/'contacts'/'index.html').write_text(doc('Контакты часовой мастерской на Петровке','Запись на диагностику и обслуживание часов в независимой мастерской на Петровке в Москве.',body,1,route="/contacts/",trail=[('Контакты','/contacts/')],schema_extra=[{'@type':'ContactPage','@id':ORIGIN+'/contacts/#contact','mainEntity':{'@id':BIZ_ID}}]),encoding='utf-8')
+
+# ARTICLES
+ARTICLES = json.loads((ROOT/'data/articles.json').read_text())
+(ROOT/'articles').mkdir(exist_ok=True)
+article_cards = ''.join(
+    f'<a class="content-card" href="{a["slug"]}/"><div><div class="eyebrow">{i+1:02} / Статья</div>'
+    f'<h2>{escape(a["title"])}</h2><p>{escape(a["description"])}</p></div><span>Читать</span></a>'
+    for i, a in enumerate(ARTICLES))
+body = (video_hero('Статьи о часах', 'Полезно знать', breadcrumbs([('Статьи', None)], '../'), '../',
+                   'Как ухаживать за часами и когда пора к мастеру.')
+        + f'<main><section class="section section-dark pt-0"><div class="container content-grid">{article_cards}</div></section>'
+        + block_contacts('../') + '</main>')
+(ROOT/'articles'/'index.html').write_text(doc('Статьи о ремонте и обслуживании часов — часовая мастерская',
+    'Полезные статьи о механических и кварцевых часах: обслуживание, точность хода, влага, намагничивание.',
+    body, 1, route='/articles/', trail=[('Статьи', '/articles/')]), encoding='utf-8')
+for a in ARTICLES:
+    d = ROOT/'articles'/a['slug']; d.mkdir(parents=True, exist_ok=True)
+    route = f'/articles/{a["slug"]}/'
+    sections = ''.join(f'<h2>{escape(h)}</h2><p>{escape(t)}</p>' for h, t in a['sections'])
+    related = ''.join(f'<li><a href="../../{href}">{escape(n)}</a></li>' for n, href in a['related'])
+    article = (f'<section class="section section-ivory"><div class="container narrow article-body reveal">'
+               f'<p class="lead">{escape(a["lead"])}</p>{sections}'
+               f'<div class="article-related"><div class="eyebrow">Услуги по теме</div><ul>{related}</ul></div>'
+               f'</div></section>')
+    body = (video_hero(a['title'], 'Статья', breadcrumbs([('Статьи', '../'), (a['title'], None)], '../../'), '../../')
+            + '<main>' + article + block_contacts('../../') + '</main>')
+    node = {'@type': 'Article', 'headline': a['title'], 'description': a['description'],
+            'inLanguage': 'ru', 'mainEntityOfPage': ORIGIN + route,
+            'author': {'@id': BIZ_ID}, 'publisher': {'@id': BIZ_ID}, 'datePublished': '2026-10-06'}
+    d.joinpath('index.html').write_text(doc(a['meta_title'], a['description'], body, 2, route=route,
+        trail=[('Статьи', '/articles/'), (a['title'], route)], schema_extra=[node]), encoding='utf-8')
+
+# PRIVACY
+# Оператор указан по данным сайта; ФИО/ИНН владельца — добавить, когда пришлют (TODO-CONTENT.md)
+(ROOT/'privacy').mkdir(exist_ok=True)
+PRIVACY = [
+    ('Общие положения', f'Настоящая политика описывает, как часовая мастерская на Петровке (сайт {CONFIG["production_origin_human"]}) обрабатывает персональные данные посетителей сайта в соответствии с Федеральным законом № 152-ФЗ «О персональных данных».'),
+    ('Какие данные мы получаем', 'Номер телефона, имя и текст сообщения, которые вы указываете в форме заявки, а также технические данные посещения сайта, которые собирает сервис Яндекс Метрика: IP-адрес, сведения о браузере и устройстве, файлы cookie, страницы просмотра.'),
+    ('Зачем', 'Чтобы связаться с вами по заявке, ответить на вопрос и записать на диагностику, а также чтобы анализировать посещаемость и улучшать сайт. Данные не используются для рассылок без вашего отдельного согласия.'),
+    ('Передача третьим лицам', 'Данные заявки передаются мастерской через защищённый канал связи и не продаются и не передаются третьим лицам, кроме случаев, предусмотренных законом. Статистика посещений обрабатывается сервисом Яндекс Метрика по правилам ООО «Яндекс».'),
+    ('Сроки хранения', 'Данные заявок хранятся не дольше, чем это нужно для ответа на обращение и выполнения работ, после чего удаляются.'),
+    ('Ваши права', f'Вы можете запросить сведения о своих данных, их исправление или удаление, а также отозвать согласие на обработку, написав на {CONTACTS["email"]} или позвонив по телефону {PHONE}.'),
+]
+privacy_html = ''.join(f'<h2>{escape(h)}</h2><p>{escape(t)}</p>' for h, t in PRIVACY)
+body = (page_hero('Политика обработки персональных данных', 'Документы', 1, media=None,
+                  breadcrumbs_html=breadcrumbs([('Политика конфиденциальности', None)], '../'))
+        + f'<main><section class="section section-ivory"><div class="container narrow article-body">{privacy_html}</div></section></main>')
+(ROOT/'privacy'/'index.html').write_text(doc('Политика обработки персональных данных — часовая мастерская',
+    'Как часовая мастерская на Петровке обрабатывает персональные данные посетителей сайта и заявок.',
+    body, 1, route='/privacy/', trail=[('Политика конфиденциальности', '/privacy/')]), encoding='utf-8')
 
 # Preview URLs remain crawlable so crawlers can read noindex.
 robots_text = 'User-agent: *\nDisallow:\n'

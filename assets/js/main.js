@@ -100,6 +100,46 @@
   document.addEventListener('visibilitychange', syncPlayback);
 
 
+  // Цели Метрики: звонок и заявка (счётчик есть только в боевой сборке).
+  const goal = name => { try { if (typeof ym === 'function') ym(113016242, 'reachGoal', name); } catch (e) {} };
+  document.querySelectorAll('a[href^="tel:"]').forEach(a => a.addEventListener('click', () => goal('call')));
+
+  // Заявка: /send.php → Telegram. На preview (GitHub Pages) PHP нет — просим позвонить.
+  const toast = document.querySelector('.toast');
+  const say = text => {
+    if (!toast) return alert(text);
+    toast.textContent = text;
+    toast.classList.add('show');
+    clearTimeout(say.t);
+    say.t = setTimeout(() => toast.classList.remove('show'), 6000);
+  };
+  document.querySelectorAll('.lead-form').forEach(form => {
+    const ts = form.querySelector('[name="ts"]');
+    if (ts) ts.value = Math.floor(Date.now() / 1000);
+    const phone = form.querySelector('[name="phone"]');
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const digits = (phone.value.match(/\d/g) || []).length;
+      phone.setAttribute('aria-invalid', digits < 10 ? 'true' : 'false');
+      if (digits < 10) { phone.focus(); say('Укажите номер телефона, чтобы мастер мог перезвонить.'); return; }
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      try {
+        const response = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || 'send');
+        form.reset();
+        if (ts) ts.value = Math.floor(Date.now() / 1000);
+        goal('lead');
+        say('Заявка отправлена. Мастер перезвонит в рабочее время.');
+      } catch (error) {
+        say(error.message && error.message !== 'send' ? error.message : 'Не получилось отправить заявку. Позвоните нам — так быстрее.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+
   // Update footer year.
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 })();
