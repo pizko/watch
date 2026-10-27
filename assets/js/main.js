@@ -140,6 +140,18 @@
     });
   });
 
+  // Прайс: вкладки по разделам и «Показать все цены». Без JS видна вся таблица.
+  document.querySelectorAll('.price-table').forEach(table => {
+    const rows = [...table.querySelectorAll('.pt-row')];
+    table.querySelectorAll('.pt-tab').forEach(tab => tab.addEventListener('click', () => {
+      table.querySelectorAll('.pt-tab').forEach(t => t.classList.toggle('is-active', t === tab));
+      const cat = tab.dataset.cat;
+      if (cat !== 'all') table.classList.add('is-open');
+      rows.forEach(r => { r.hidden = cat !== 'all' && r.dataset.cat !== cat; });
+    }));
+    table.querySelector('.pt-show-all')?.addEventListener('click', () => table.classList.add('is-open'));
+  });
+
   // Update footer year.
   document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 })();

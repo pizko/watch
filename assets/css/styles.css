@@ -518,3 +518,41 @@ h1, h2, h3 { hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; }
 .about-points li::before { content:''; position:absolute; left:0; top:.75em; width:12px; height:1px; background:currentColor; opacity:.5; }
 #prices .copy { max-width:440px; }
 #prices h2 { hyphens:manual; -webkit-hyphens:manual; }
+
+/* Прайс таблицей — по образцу remontiryemchasi.ru: вкладки, тёмная шапка, крупные строки */
+.pt-head { max-width:720px; display:grid; gap:18px; margin-bottom:40px; }
+.pt-head .copy { opacity:.75; color:#1b1d20; max-width:640px; }
+.price-table { color:#111316; }
+.pt-tabs { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
+.pt-tab { font:inherit; font-size:13px; letter-spacing:.02em; padding:12px 18px; border:1px solid rgba(17,19,22,.22); background:#fbf9f5; color:#111316; cursor:pointer; transition:background .2s,border-color .2s,color .2s; }
+.pt-tab:hover { border-color:#111316; }
+.pt-tab.is-active { background:#111316; border-color:#111316; color:#f3eee4; }
+.pt-tab:focus-visible, .pt-show-all:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.pt-wrap { overflow-x:auto; border:1px solid rgba(17,19,22,.14); background:#fbf9f5; }
+.price-table table { width:100%; border-collapse:collapse; min-width:520px; }
+.price-table th { background:#111316; color:var(--accent); text-align:left; font-size:13px; font-weight:600; letter-spacing:.03em; padding:18px 22px; }
+.price-table td { font-size:15px; line-height:1.4; padding:16px 22px; border-top:1px solid rgba(17,19,22,.1); vertical-align:top; }
+.price-table tbody tr:nth-child(even) td { background:rgba(17,19,22,.025); }
+.price-table td.pt-price { font-weight:600; white-space:nowrap; }
+.price-table td:last-child { color:#4a4d52; white-space:nowrap; }
+.price-table th:nth-child(2), .price-table th:nth-child(3) { width:22%; }
+.price-table.is-limited:not(.is-open) .pt-row.pt-more { display:none; }
+.price-table .pt-row[hidden] { display:none !important; }
+.pt-show-all { margin-top:18px; font:inherit; font-size:14px; font-weight:600; background:none; border:0; border-bottom:1px solid currentColor; padding:0 0 3px; color:#111316; cursor:pointer; }
+.price-table.is-open .pt-show-all { display:none; }
+.pt-link { margin-top:22px; font-size:14px; }
+.pt-link a { border-bottom:1px solid currentColor; }
+.pt-war-m { display:none; }
+@media (max-width:640px) {
+  .price-table table { min-width:0; }
+  .price-table td, .price-table th { padding:13px 14px; font-size:14px; }
+  .price-table th:nth-child(3), .price-table td.pt-war { display:none; }
+  .price-table th:nth-child(2) { width:auto; text-align:right; }
+  .price-table td.pt-price { text-align:right; }
+  .pt-war-m { display:block; margin-top:3px; font-size:11px; font-weight:400; color:#5d6066; white-space:nowrap; }
+  .pt-tab { font-size:12px; padding:10px 14px; }
+}
+/* цены на страницах услуг (тёмный фон) — крупнее и контрастнее */
+.service-prices .price-table-row { font-size:15px; opacity:1; padding:14px 0; }
+.service-prices .price-table-row span:last-child { font-weight:600; }
+.service-prices .price-table-row small { font-weight:400; opacity:.7; font-size:12px; }

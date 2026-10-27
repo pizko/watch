@@ -258,14 +258,31 @@ def block_prices(prefix=''):
             f'<div class="price-list reveal">{rows}</div></div></section>')
 
 
+def price_table(limit=None):
+    """Прайс таблицей с вкладками по разделам. limit — сколько строк показать во «Все услуги» до кнопки."""
+    tabs = '<button class="pt-tab is-active" type="button" data-cat="all">Все услуги</button>' + ''.join(
+        f'<button class="pt-tab" type="button" data-cat="c{k}">{escape(c["name"])}</button>' for k, c in enumerate(PRICES['categories']))
+    rows, n = [], 0
+    for k, c in enumerate(PRICES['categories']):
+        for name, price, war in c['items']:
+            more = ' pt-more' if limit and n >= limit else ''
+            war_m = f'<span class="pt-war-m">{"гарантия " + escape(war) if war and war != "без гарантии" else escape(war)}</span>' if war else ''
+            rows.append(f'<tr class="pt-row{more}" data-cat="c{k}"><td>{escape(name)}</td><td class="pt-price">{escape(price)}{war_m}</td>'
+                        f'<td class="pt-war">{escape(war) if war else "—"}</td></tr>')
+            n += 1
+    more_btn = f'<button class="pt-show-all" type="button">Показать все цены</button>' if limit and n > limit else ''
+    return (f'<div class="price-table{" is-limited" if limit else ""}"><div class="pt-tabs" role="tablist">{tabs}</div>'
+            f'<div class="pt-wrap"><table><thead><tr><th>Название услуги</th><th>Цена от</th><th>Гарантия</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>{more_btn}</div>')
+
+
 def block_prices_full(prefix=''):
     """Полный прайс на главной — как на remontiryemchasi.ru."""
-    return (f'<section class="section section-navy" id="prices"><div class="container price-layout">'
-            f'<div class="reveal"><div class="eyebrow">Прайс</div><h2 class="display display-md">Цены на ремонт часов.</h2>'
-            f'<p class="copy mt-28">Стоимость обслуживания и ремонта элитных часов зависит от бренда, модели, сложности механизма и технического состояния. '
-            f'Перед началом работ проведём диагностику, объясним причину неисправности и согласуем итоговую цену.</p>'
-            f'<a class="btn mt-28" href="{prefix}prices/">Все цены</a></div>'
-            f'<div class="price-accordion reveal">{price_cats}</div></div></section>')
+    return (f'<section class="section section-ivory" id="prices"><div class="container">'
+            f'<div class="pt-head reveal"><div class="eyebrow">Прайс</div><h2 class="display display-md">Цены на ремонт часов.</h2>'
+            f'<p class="copy">Стоимость обслуживания и ремонта элитных часов зависит от бренда, модели, сложности механизма и технического состояния. '
+            f'Перед началом работ проведём диагностику, объясним причину неисправности и согласуем итоговую цену.</p></div>'
+            f'{price_table(limit=8)}<p class="pt-link"><a href="{prefix}prices/">Страница с ценами →</a></p></div></section>')
 
 
 def block_about_text(prefix=''):
@@ -544,7 +561,7 @@ for i,(slug,name) in enumerate(brands):
 
 body=(video_hero('Цены','Цены: сначала согласование',breadcrumbs([('Цены',None)],'../'),'../',
                 'Цены «от» по основным работам. Итог подтверждается после диагностики и согласуется до начала ремонта.')
-      + f'''<main><section class="section section-navy"><div class="container price-layout"><div><div class="eyebrow">Как считается стоимость</div><h2 class="display display-md">Точная цена — после диагностики.</h2><a class="btn mt-28" href="{PHONE_HREF}">Позвонить {PHONE}</a></div><div class="price-accordion">{price_cats}</div></div></section>'''
+      + f'''<main><section class="section section-ivory"><div class="container"><div class="pt-head"><div class="eyebrow">Как считается стоимость</div><h2 class="display display-md">Точная цена — после диагностики.</h2><p class="copy">Ниже — цены «от» по основным работам. Итог зависит от бренда, модели и состояния часов: мастер называет его после диагностики и согласует с вами до начала ремонта.</p><a class="btn dark mt-28" href="{PHONE_HREF}">Позвонить {PHONE}</a></div>{price_table()}</div></section>'''
       + block_process('../') + block_faq('../') + block_contacts('../') + '</main>')
 (ROOT/'prices'/'index.html').write_text(doc('Цены на ремонт часов в Москве — прайс часовой мастерской','Цены на ремонт и обслуживание часов: диагностика от 1 990 ₽, замена батарейки от 2 990 ₽, чистка и смазка от 2 500 ₽, замена стекла от 4 990 ₽. Гарантия на работы.',body,1,route="/prices/",trail=[('Цены','/prices/')]),encoding='utf-8')
 
