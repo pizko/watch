@@ -142,7 +142,7 @@ def header(prefix=''):
 def footer(prefix=''):
     FOOTER_BRANDS = ''.join(
         f'<a href="{prefix}brands/{slug}/">{escape(name)}</a>' for slug, name in brands)
-    return f'''<footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand">ЧАСОВАЯ<br>МАСТЕРСКАЯ</div><nav class="footer-nav"><a href="{prefix}services/">Услуги</a><a href="{prefix}brands/">Бренды</a><a href="{prefix}prices/">Цены</a><a href="{prefix}atelier/">Мастерская</a><a href="{prefix}articles/">Статьи</a><a href="{prefix}contacts/">Контакты</a></nav><div class="footer-meta"><a href="{PHONE_HREF}">{PHONE}</a><a href="{prefix}contacts/">{ADDRESS_TEXT}</a><span>{HOURS_TEXT}</span></div></div>
+    return f'''<footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-brand">ЧАСОВАЯ<br>МАСТЕРСКАЯ</div><nav class="footer-nav"><a href="{prefix}services/">Услуги</a><a href="{prefix}brands/">Бренды</a><a href="{prefix}prices/">Цены</a><a href="{prefix}atelier/">Мастерская</a><a href="{prefix}articles/">Статьи</a><a href="{prefix}contacts/">Контакты</a></nav><div class="footer-meta"><a href="{PHONE_HREF}">{PHONE}</a><a href="{CONTACTS["telegram"]}" target="_blank" rel="noopener">Telegram</a><a href="{CONTACTS["max"]}" target="_blank" rel="noopener">Max</a><a href="{prefix}contacts/">{ADDRESS_TEXT}</a><span>{HOURS_TEXT}</span></div></div>
 <div class="footer-brands"><span class="footer-brands-title">Марки часов</span><div class="footer-brands-list">{FOOTER_BRANDS}</div></div><div class="footer-bottom"><span>© <span data-year></span> Независимая часовая мастерская · <a href="{prefix}privacy/">Политика конфиденциальности</a></span><span>Независимая мастерская. Не является официальным сервисным центром и не аффилирована с указанными производителями.</span></div></div></footer><a class="call-fab" href="{PHONE_HREF}" aria-label="Позвонить {PHONE}"><span>Позвонить</span></a><div class="toast"></div>'''
 
 def doc(title, description, body, depth=0, route='/', trail=None, schema_extra=None):
@@ -269,6 +269,7 @@ def block_contacts(prefix=''):
             f'<div class="contact-line"><dt>Адрес</dt><dd>{ADDRESS["postal_code"]}, {ADDRESS_TEXT}</dd></div>'
             f'<div class="contact-line"><dt>График</dt><dd>{HOURS_TEXT}</dd></div>'
             f'<div class="contact-line"><dt>Телефон</dt><dd><a href="{PHONE_HREF}">{PHONE}</a></dd></div>'
+            f'<div class="contact-line"><dt>Мессенджеры</dt><dd><a href="{CONTACTS["telegram"]}" target="_blank" rel="noopener">Telegram</a> · <a href="{CONTACTS["max"]}" target="_blank" rel="noopener">Max</a></dd></div>'
             f'</dl>{lead_form(prefix)}</div>{MAP_EMBED}</div></div></section>')
 
 

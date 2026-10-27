@@ -73,7 +73,7 @@ button { color:inherit; }
 .main-nav a:hover { opacity:1; }
 .main-nav a:hover::after { right:0; }
 .header-actions { display:flex; align-items:center; justify-content:flex-end; gap:18px; }
-.header-phone { font-size:11px; letter-spacing:.06em; opacity:.75; }
+.header-phone { font-size:16px; font-weight:500; letter-spacing:.03em; white-space:nowrap; opacity:1; }
 .header-book { display:inline-flex; align-items:center; gap:10px; font-size:10px; text-transform:uppercase; letter-spacing:.13em; border-bottom:1px solid rgba(255,255,255,.5); padding-bottom:4px; }
 .menu-toggle { display:none; width:42px; height:42px; border:0; background:transparent; padding:0; cursor:pointer; }
 .menu-toggle span { display:block; width:26px; height:1px; background:#fff; margin:7px auto; transition:transform .25s,opacity .25s; }
