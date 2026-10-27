@@ -501,3 +501,11 @@ h1, h2, h3 { hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; }
 .article-related a, .detail-article a { text-decoration:underline; text-underline-offset:3px; }
 .detail-article { font-size:14px; opacity:.8; }
 .brand-intro-copy h3 { font-family:var(--serif); font-weight:400; font-size:clamp(24px,2.2vw,32px); line-height:1.1; margin:30px 0 10px; }
+
+/* Прайс: гарантия под ценой, блок цен на страницах услуг */
+.price-table-row span:last-child { text-align:right; white-space:nowrap; }
+.price-table-row small { display:block; margin-top:3px; font-size:10px; opacity:.6; letter-spacing:.04em; }
+.service-prices { border-top:1px solid var(--line-dark); padding-top:18px; }
+.service-prices .eyebrow { margin-bottom:6px; }
+.service-prices .price-table-row { font-size:14px; opacity:.9; }
+.service-prices-note { font-size:12px !important; opacity:.55 !important; margin-top:12px; }

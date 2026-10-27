@@ -1,6 +1,7 @@
 <?php
 /**
  * Заявки с часовое-ателье.рф → Telegram.
+ * В Telegram — через пересылку на нашем VPS (deltamoscow.ru/tg-relay/): с Beget api.telegram.org недоступен с 27.10.2026.
  * Токен и chat_id лежат ВНЕ webroot: ../lead_config.php (return ['bot_token' => ..., 'chat_id' => ...]).
  * Копия каждой заявки — ../leads.log. Защита: скрытое поле, время заполнения, не больше 5 заявок в час с одного IP.
  * Совместим с PHP 5.6.
@@ -92,7 +93,7 @@ $ctx = stream_context_create(array('http' => array(
     'timeout' => 10,
     'ignore_errors' => true,
 )));
-$res = @file_get_contents('https://api.telegram.org/bot' . $cfg['bot_token'] . '/sendMessage', false, $ctx);
+$res = @file_get_contents('https://deltamoscow.ru/tg-relay/bot' . $cfg['bot_token'] . '/sendMessage', false, $ctx);
 $json = $res ? json_decode($res, true) : null;
 if (!is_array($json) || empty($json['ok'])) {
     @file_put_contents($base . '/leads.log', date('c') . "\tTELEGRAM_FAIL\t" . substr((string) $res, 0, 200) . "\n", FILE_APPEND | LOCK_EX);

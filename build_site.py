@@ -51,12 +51,22 @@ brands = [
 
 # ── Общие данные страниц ───────────────────────────────────────────────────
 # Правятся в одном месте и попадают на все страницы, где выводится блок.
+# Прайс — с remontiryemchasi.ru (перенос по просьбе владельца 27.10.2026), см. data/prices.json
+PRICES = json.loads((ROOT / 'data/prices.json').read_text())
+PRICE = {n: (v, g) for c in PRICES['categories'] for n, v, g in c['items']}
+
+
+def price_row(n, v, g):
+    war = f'<small>гарантия {escape(g)}</small>' if g and g != 'без гарантии' else (f'<small>{escape(g)}</small>' if g else '')
+    return f'<div class="price-table-row"><span>{escape(n)}</span><span>{escape(v)}{war}</span></div>'
+
+
 price_teaser = [
-    ('Обслуживание механизма', 'после диагностики'),
-    ('Корпус и полировка', 'по состоянию'),
-    ('Стекло', 'по модели'),
-    ('Герметичность', 'по задаче'),
-    ('Сложные механизмы', 'индивидуально'),
+    ('Диагностика', PRICE['Диагностика'][0]),
+    ('Замена батарейки', PRICE['Замена батарейки'][0]),
+    ('Чистка и смазка механизма', PRICE['Чистка и смазка'][0]),
+    ('Замена стекла', PRICE['Замена стекла'][0]),
+    ('Полировка корпуса', PRICE['Полировка корпуса'][0]),
 ]
 
 process_steps = [
@@ -72,6 +82,10 @@ faqs = [
     ('Стоимость известна заранее?','До начала основных работ согласуются перечень вмешательств и стоимость. Если по ходу работы найдётся ещё одна неисправность, мастер сначала позвонит: без вашего согласия ничего не делаем.'),
     ('Можно ли обслуживать дорогие часы без официального сервиса?','Независимая мастерская не является официальным сервисным центром брендов. Возможность конкретной работы зависит от модели, состояния часов, доступности компонентов и требований владельца.'),
     ('Что происходит после ремонта?','После сборки мастер проверяет ход и работу механизма. Если работа затрагивала корпус, отдельно проверяется герметичность.'),
+    ('Как часто нужно обслуживать механические часы?','Чтобы предотвратить износ деталей и высыхание смазки, профилактический осмотр и диагностику рекомендуется проводить раз в 3–5 лет.'),
+    ('Сколько времени занимает диагностика?','Первичный осмотр мастер проводит при вас, он занимает около 15–20 минут. Глубокая диагностика сложных неисправностей может занять до 2–3 рабочих дней.'),
+    ('Проверяете ли вы герметичность после обслуживания?','Да. После любого вмешательства в корпус часы проверяют в барокамере, чтобы влага не попала внутрь при повседневной носке и контакте с водой.'),
+    ('Можно ли отполировать часы без ремонта механизма?','Да. Восстановление корпуса и браслета и ультразвуковая чистка делаются без вскрытия механизма.'),
     ('Нужно ли записываться заранее?','Для часов высокого класса предварительная запись удобнее: можно заранее описать модель и задачу, а мастерская подготовится к осмотру.'),
 ]
 
@@ -195,7 +209,7 @@ def page_hero(title, label, depth=0, media='hero-poster.webp', breadcrumbs_html=
 # поэтому правка прайса, этапов или контактов разом меняет все страницы.
 
 MAP_EMBED = ('<div class="contact-map"><iframe src="https://yandex.ru/map-widget/v1/'
-             '?um=constructor%3A349d14082660d41000ccf910e5fae332e234360b34a1b731d98f4ddc441a9b1b&amp;source=constructor" '
+             '?um=constructor%3A00ddf8e79e973be76c434ac23ef335153c2502bafcd42f900536f08d3056e565&amp;source=constructor" '
              'width="100%" height="400" frameborder="0" loading="lazy" '
              'title="Мастерская на карте: улица Петровка, 23/10, строение 5"></iframe></div>')
 
@@ -309,7 +323,7 @@ home=f'''
 
 {block_triptych()}
 
-<section class="section section-navy"><div class="container price-layout"><div class="reveal"><div class="eyebrow">Цены и согласование</div><h2 class="display display-md">Цена после понимания задачи.</h2><a class="btn mt-28" href="prices/">Смотреть структуру прайса</a></div><div class="price-list reveal"><div class="price-row"><h3>Обслуживание механизма</h3><span>после диагностики</span></div><div class="price-row"><h3>Корпус и полировка</h3><span>по состоянию</span></div><div class="price-row"><h3>Стекло</h3><span>по модели</span></div><div class="price-row"><h3>Герметичность</h3><span>по задаче</span></div><div class="price-row"><h3>Сложные механизмы</h3><span>индивидуально</span></div></div></div></section>
+{block_prices()}
 
 {block_faq()}
 
@@ -388,6 +402,21 @@ for _a in _ARTS.values():
     for _n, _href in _a['related']:
         SERVICE_ARTICLES.setdefault(_href.split('/')[1], []).append(_a)
 
+# Какие строки прайса показывать на странице каждой услуги
+SERVICE_PRICES = {
+    'full-service': ['Чистка и смазка', 'Механические часы', 'Часы с автоподзаводом', 'Кварцевые часы', 'Репассаж'],
+    'diagnostics': ['Диагностика', 'Регулировка точности хода'],
+    'movement-repair': ['Ремонт / замена деталей', 'Ремонт заводной головки', 'Установка стрелок', 'Ремонт часового баланса'],
+    'polishing': ['Полировка корпуса', 'Полировка', 'Ультразвуковая чистка'],
+    'glass-replacement': ['Замена стекла'],
+    'water-resistance': ['Восстановление герметичности', 'Ремонт кнопок'],
+    'battery': ['Замена батарейки'],
+    'bracelet': ['Укорачивание звеньев', 'Замена или ремонт', 'Ремонт клипсы или застёжки', 'Реставрация ремешков'],
+    'automatic-winding': ['Часы с автоподзаводом', 'Ремонт / замена деталей'],
+    'chronograph': ['Обслуживание хронографа', 'Ремонт кнопок', 'Ремонт турбийона'],
+    'restoration': ['Ремонт циферблата', 'Полировка корпуса', 'Реставрация ремешков'],
+}
+
 for i,(slug,name,desc,tag) in enumerate(services):
     d=ROOT/'services'/slug; d.mkdir(parents=True,exist_ok=True)
     bc=breadcrumbs([('Услуги','../'),(name,None)],'../../')
@@ -395,6 +424,8 @@ for i,(slug,name,desc,tag) in enumerate(services):
             f'<div class="detail-sticky reveal"><img src="../../assets/images/detail-0{(i%3)+1}.webp" alt="Иллюстративный макрокадр часового механизма"></div>'
             f'<div class="detail-copy reveal"><div class="eyebrow">Независимая мастерская</div><h2>{escape(name)}</h2>'
             f'<p class="lead">{escape(desc)}</p>'
+            + (('<div class="service-prices"><div class="eyebrow">Цены</div>' + ''.join(price_row(n, *PRICE[n]) for n in SERVICE_PRICES[slug])
+                + '<p class="service-prices-note">Точная стоимость — после диагностики, согласуем до начала работ.</p></div>') if slug in SERVICE_PRICES else '')
             + ''.join(f'<h3>{escape(h)}</h3><p>{escape(t)}</p>' for h, t in SERVICE_EXTRA.get(slug, []))
             + f'<p>Конкретный объём вмешательства определяется после осмотра. Для часов высокого класса важно сохранить '
             f'исходную геометрию деталей и не выполнять дополнительные операции без необходимости.</p>'
@@ -473,13 +504,15 @@ for i,(slug,name) in enumerate(brands):
 
 # PRICES
 (ROOT/'prices').mkdir(exist_ok=True)
-cats=[('Механизм',['Диагностика — после осмотра','Полное обслуживание — после диагностики','Ремонт отдельных узлов — после диагностики','Автоподзавод — после диагностики']),('Корпус и браслет',['Полировка корпуса — после оценки состояния','Сатинирование — после оценки геометрии','Работы с браслетом — по модели']),('Стекло',['Замена стекла — по модели и типу стекла','Посадка и проверка — по задаче']),('Герметичность',['Проверка герметичности — по модели','Замена уплотнений — после осмотра']),('Сложные механизмы',['Хронограф — индивидуально','Турбийон и усложнения — только после предварительной диагностики'])]
-price_cats=''.join([f'''<div class="price-category"><button><span>{escape(name)}</span><span>+</span></button><div class="price-category-body">{''.join([f'<div class="price-table-row"><span>{escape(row.split(" — ")[0])}</span><span>{escape(row.split(" — ")[1])}</span></div>' for row in rows])}</div></div>''' for name,rows in cats])
+price_cats = ''.join(
+    f'<div class="price-category{" open" if k == 0 else ""}"><button><span>{escape(c["name"])}</span><span>+</span></button>'
+    f'<div class="price-category-body">{"".join(price_row(*it) for it in c["items"])}</div></div>'
+    for k, c in enumerate(PRICES['categories']))
 body=(video_hero('Цены','Цены: сначала согласование',breadcrumbs([('Цены',None)],'../'),'../',
-                'Структура стоимости обслуживания часов. Итог подтверждается после диагностики.')
+                'Цены «от» по основным работам. Итог подтверждается после диагностики и согласуется до начала ремонта.')
       + f'''<main><section class="section section-navy"><div class="container price-layout"><div><div class="eyebrow">Как считается стоимость</div><h2 class="display display-md">Точная цена — после диагностики.</h2><a class="btn mt-28" href="{PHONE_HREF}">Позвонить {PHONE}</a></div><div class="price-accordion">{price_cats}</div></div></section>'''
       + block_process('../') + block_faq('../') + block_contacts('../') + '</main>')
-(ROOT/'prices'/'index.html').write_text(doc('Цены на ремонт и обслуживание часов','Структура стоимости обслуживания часов: механизм, корпус, стекло, герметичность и сложные калибры.',body,1,route="/prices/",trail=[('Цены','/prices/')]),encoding='utf-8')
+(ROOT/'prices'/'index.html').write_text(doc('Цены на ремонт часов в Москве — прайс часовой мастерской','Цены на ремонт и обслуживание часов: диагностика от 1 990 ₽, замена батарейки от 2 990 ₽, чистка и смазка от 2 500 ₽, замена стекла от 4 990 ₽. Гарантия на работы.',body,1,route="/prices/",trail=[('Цены','/prices/')]),encoding='utf-8')
 
 # ATELIER
 (ROOT/'atelier').mkdir(exist_ok=True)
