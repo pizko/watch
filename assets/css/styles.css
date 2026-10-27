@@ -509,3 +509,12 @@ h1, h2, h3 { hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; }
 .service-prices .eyebrow { margin-bottom:6px; }
 .service-prices .price-table-row { font-size:14px; opacity:.9; }
 .service-prices-note { font-size:12px !important; opacity:.55 !important; margin-top:12px; }
+
+/* Главная: пункты под первым экраном и «О нас» — с remontiryemchasi.ru */
+.hero-points { list-style:none; margin:22px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:10px 22px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.8); }
+.hero-points li::before { content:'— '; opacity:.5; }
+.about-points { list-style:none; margin:0; padding:0; display:grid; gap:12px; font-size:15px; line-height:1.6; }
+.about-points li { padding-left:22px; position:relative; opacity:.8; }
+.about-points li::before { content:''; position:absolute; left:0; top:.75em; width:12px; height:1px; background:currentColor; opacity:.5; }
+#prices .copy { max-width:440px; }
+#prices h2 { hyphens:manual; -webkit-hyphens:manual; }

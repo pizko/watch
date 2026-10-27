@@ -25,13 +25,13 @@ def image_attributes(match):
     return tag[:-1] + f' width="{width}" height="{height}" loading="{loading}" decoding="async">'
 
 services = [
-    ('full-service','Полное обслуживание механизма','Разборка, очистка, смазка, сборка, регулировка и контроль работы механизма.','ОБСЛУЖИВАНИЕ МЕХАНИЗМА'),
-    ('movement-repair','Ремонт механизма','Диагностика неисправности и восстановление узлов механических и кварцевых часов.','РЕМОНТ КАЛИБРА'),
-    ('polishing','Полировка и восстановление корпуса','Работа с полированными и сатинированными поверхностями корпуса и браслета.','КОРПУС И ОТДЕЛКА'),
+    ('full-service','Полное обслуживание механизма','Репассаж механических часов по регламентам швейцарских мануфактур: разборка, чистка, смазка, сборка и регулировка хода.','ОБСЛУЖИВАНИЕ МЕХАНИЗМА'),
+    ('movement-repair','Ремонт механизма','Устраняем проблемы с календарём, хронографом или репетиром. Если сломалась заводная головка или кнопка хронографа, подберём запчасть из наличия или закажем у производителя.','РЕМОНТ КАЛИБРА'),
+    ('polishing','Полировка и восстановление корпуса','Восстановление заводской геометрии корпуса и браслета и ультразвуковая чистка.','КОРПУС И ОТДЕЛКА'),
     ('diagnostics','Диагностика и регулировка хода','Находим причину остановки или неточного хода и регулируем механизм. Механические и кварцевые часы.','ТОЧНОСТЬ ХОДА'),
-    ('glass-replacement','Замена стекла','Подбор и замена стекла с последующей проверкой посадки и состояния корпуса.','СТЕКЛО'),
+    ('glass-replacement','Замена стекла','Установка сапфировых стёкол с сохранением герметичности и защитой механизма от осколков.','СТЕКЛО'),
     ('water-resistance','Проверка герметичности','Контроль герметичности после вмешательства и перед повседневной эксплуатацией.','ГЕРМЕТИЧНОСТЬ'),
-    ('battery','Замена батарейки','Замена элемента питания в кварцевых часах с проверкой хода и герметичности после закрытия корпуса.','КВАРЦЕВЫЕ ЧАСЫ'),
+    ('battery','Замена батарейки','Аккуратная замена элемента питания без царапин и сколов, с проверкой хода и герметичности после закрытия корпуса.','КВАРЦЕВЫЕ ЧАСЫ'),
     ('bracelet','Браслеты и ремешки','Укорачивание браслета, замена ремешка или браслета, ремонт застёжки.','БРАСЛЕТ И РЕМЕШОК'),
     ('automatic-winding','Ремонт автоподзавода','Диагностика ротора и узлов автоматического подзавода.','АВТОПОДЗАВОД'),
     ('chronograph','Хронографы и сложные механизмы','Работы со сложными калибрами требуют предварительной диагностики и согласования.','СЛОЖНЫЕ МЕХАНИЗМЫ'),
@@ -61,6 +61,12 @@ def price_row(n, v, g):
     return f'<div class="price-table-row"><span>{escape(n)}</span><span>{escape(v)}{war}</span></div>'
 
 
+price_cats = ''.join(
+    f'<div class="price-category{" open" if k == 0 else ""}"><button><span>{escape(c["name"])}</span><span>+</span></button>'
+    f'<div class="price-category-body">{"".join(price_row(*it) for it in c["items"])}</div></div>'
+    for k, c in enumerate(PRICES['categories']))
+
+
 price_teaser = [
     ('Диагностика', PRICE['Диагностика'][0]),
     ('Замена батарейки', PRICE['Замена батарейки'][0]),
@@ -70,11 +76,12 @@ price_teaser = [
 ]
 
 process_steps = [
-    ('Диагностика', 'Определяем состояние часов и характер вмешательства.'),
-    ('Согласование', 'Фиксируем перечень работ до их начала.'),
-    ('Работа', 'Выполняем согласованные операции без лишнего вмешательства.'),
-    ('Контроль', 'Проверяем ход часов и работу узлов, которых касался ремонт.'),
-    ('Выдача', 'Передаём часы владельцу с понятным описанием результата.'),
+    ('Заявка', 'Оставьте заявку на сайте или позвоните в мастерскую.'),
+    ('Осмотр часов', 'Уточняем бренд, модель и вид неисправности.'),
+    ('Диагностика', 'Проверяем механизм, корпус и состояние узлов.'),
+    ('Согласование', 'Объясняем необходимые работы и фиксируем цену.'),
+    ('Ремонт', 'Выполняем ремонт, обслуживание или восстановление часов.'),
+    ('Выдача и гарантия', 'Проверяем результат и выдаём гарантию.'),
 ]
 
 faqs = [
@@ -86,6 +93,8 @@ faqs = [
     ('Сколько времени занимает диагностика?','Первичный осмотр мастер проводит при вас, он занимает около 15–20 минут. Глубокая диагностика сложных неисправностей может занять до 2–3 рабочих дней.'),
     ('Проверяете ли вы герметичность после обслуживания?','Да. После любого вмешательства в корпус часы проверяют в барокамере, чтобы влага не попала внутрь при повседневной носке и контакте с водой.'),
     ('Можно ли отполировать часы без ремонта механизма?','Да. Восстановление корпуса и браслета и ультразвуковая чистка делаются без вскрытия механизма.'),
+    ('Вы работаете с копиями или репликами?','Нет. Мастерская работает только с оригинальными часами и гарантирует подлинность всех устанавливаемых запчастей.'),
+    ('Что делать, если повреждено стекло, корпус или поцарапан браслет?','Внешние повреждения снижают герметичность: через разбитое стекло, повреждённую заводную головку или залипшую кнопку хронографа влага может попасть внутрь и повредить механизм. Мы заменим стекло, восстановим герметичность корпуса, а браслет почистим ультразвуком и деликатно отполируем без изменения геометрии граней.'),
     ('Нужно ли записываться заранее?','Для часов высокого класса предварительная запись удобнее: можно заранее описать модель и задачу, а мастерская подготовится к осмотру.'),
 ]
 
@@ -249,6 +258,32 @@ def block_prices(prefix=''):
             f'<div class="price-list reveal">{rows}</div></div></section>')
 
 
+def block_prices_full(prefix=''):
+    """Полный прайс на главной — как на remontiryemchasi.ru."""
+    return (f'<section class="section section-navy" id="prices"><div class="container price-layout">'
+            f'<div class="reveal"><div class="eyebrow">Прайс</div><h2 class="display display-md">Цены на ремонт часов.</h2>'
+            f'<p class="copy mt-28">Стоимость обслуживания и ремонта элитных часов зависит от бренда, модели, сложности механизма и технического состояния. '
+            f'Перед началом работ проведём диагностику, объясним причину неисправности и согласуем итоговую цену.</p>'
+            f'<a class="btn mt-28" href="{prefix}prices/">Все цены</a></div>'
+            f'<div class="price-accordion reveal">{price_cats}</div></div></section>')
+
+
+def block_about_text(prefix=''):
+    """Текст о мастерской — с главной remontiryemchasi.ru."""
+    return ('<section class="section section-ivory"><div class="container narrow article-body reveal">'
+            '<div class="eyebrow">О ремонте часов</div>'
+            '<h2>Диагностика и обслуживание часовых механизмов</h2>'
+            '<p>Своевременная чистка и мойка калибра предотвращают поломку узла автоподзавода. Мы работаем с такими марками, как Tissot, Longines и Certina, '
+            'обеспечивая заводской стандарт качества. Клиент получает полный отчёт о состоянии изделия после вскрытия корпуса.</p>'
+            '<h2>Ремонт дорогих часов в Москве с гарантией качества</h2>'
+            '<p>Даже простой кварцевый механизм требует внимания. Ремонт наручных часов часто начинается с замены элемента питания: мастер аккуратно заменит батарейку, '
+            'не повреждая прокладки и переводной вал.</p>'
+            '<p>Мы выполняем и сложный ремонт часов, включая восстановление работы турбийонов и вечных календарей. В работе используются швейцарские инструменты и микроскопы. '
+            'Статус заказа можно узнать по телефону или в мессенджере.</p>'
+            '<p>Мастерская находится рядом с метро, а ремонт выполняем в сжатые сроки. На все виды работ предоставляется гарантия.</p>'
+            '</div></section>')
+
+
 def block_faq(prefix=''):
     items = ''.join(
         f'<div class="faq-item"><button class="faq-q" aria-expanded="false"><span>{escape(q)}</span>'
@@ -309,9 +344,9 @@ faq_html=''.join([f'''<div class="faq-item"><button class="faq-q" aria-expanded=
 
 home=f'''
 <main>
-<section class="hero"><div class="hero-media"><img src="assets/images/hero-poster.webp" alt=""><video autoplay muted loop playsinline poster="assets/images/hero-poster.webp"><source src="assets/videos/hero-watch.mp4" type="video/mp4"></video></div><div class="container hero-inner"><div class="hero-copy reveal"><div class="eyebrow">Независимая мастерская · Москва</div><h1 class="display display-xl">Часовая мастерская:<br>ремонт швейцарских часов.</h1><p class="hero-sub">Швейцарские и брендовые часы: диагностика, обслуживание, восстановление корпуса и механизма. Мастерская на Петровке.</p><div class="hero-actions"><a class="btn" href="contacts/">Записаться на диагностику</a></div></div><div class="hero-bottom"><div class="hero-brands"><span>Rolex</span><span>Patek Philippe</span><span>Audemars Piguet</span><span>Omega</span><span>Cartier</span></div><div class="hero-scroll">Листайте вниз</div></div></div></section>
+<section class="hero"><div class="hero-media"><img src="assets/images/hero-poster.webp" alt=""><video autoplay muted loop playsinline poster="assets/images/hero-poster.webp"><source src="assets/videos/hero-watch.mp4" type="video/mp4"></video></div><div class="container hero-inner"><div class="hero-copy reveal"><div class="eyebrow">Независимая мастерская · Москва</div><h1 class="display display-xl">Часовая мастерская:<br>ремонт швейцарских часов.</h1><p class="hero-sub">Восстанавливаем точность, внешний вид и герметичность часов Rolex, Omega, Patek Philippe, Hublot, Cartier и других брендов. Мастерская на Петровке.</p><ul class="hero-points"><li>Диагностика перед ремонтом</li><li>Оригинальные комплектующие</li><li>Гарантия на работы</li></ul><div class="hero-actions"><a class="btn" href="contacts/">Записаться на диагностику</a></div></div><div class="hero-bottom"><div class="hero-brands"><span>Rolex</span><span>Patek Philippe</span><span>Audemars Piguet</span><span>Omega</span><span>Cartier</span></div><div class="hero-scroll">Листайте вниз</div></div></div></section>
 
-<section class="section section-ivory"><div class="container intro-wide"><div class="eyebrow reveal">01 / Мастерская</div><h2 class="display display-lg intro-statement reveal">Механика не терпит приблизительности.</h2><div class="intro-columns reveal"><p class="lead">Часы высокого класса требуют не громких обещаний, а точной диагностики, аккуратной работы и понятного согласования каждого вмешательства.</p><p class="copy">Сначала диагностика и понятный ответ, что с часами. Затем согласование объёма и цены. Только после этого — работа и проверка результата.</p></div></div></section>
+<section class="section section-ivory"><div class="container intro-wide"><div class="eyebrow reveal">01 / О нас</div><h2 class="display display-lg intro-statement reveal">Ремонтируем премиальные часы с 1991 года.</h2><div class="intro-columns reveal"><p class="lead">Ремонт швейцарских часов требует точности, опыта и аккуратной работы с каждой деталью. Мы заранее проводим диагностику, согласуем цену и фиксируем условия до начала работ.</p><ul class="about-points"><li>Знаем особенности Rolex, Omega, Patek Philippe, Hublot, Cartier и других брендов</li><li>Сначала находим причину поломки, потом ремонтируем</li><li>Заранее объясняем, какие работы действительно нужны</li><li>Подбираем детали под задачу, бюджет и сроки</li><li>Сохраняем корпус, браслет и ценность часов</li></ul></div></div></section>
 
 <section class="section section-dark"><div class="container craft-grid"><div class="media-frame reveal"><img src="assets/images/watchmaker.webp" alt="Работа часовщика"><video autoplay muted loop playsinline poster="assets/images/watchmaker.webp"><source src="assets/videos/watchmaker.mp4" type="video/mp4"></video><div class="media-caption"><span>РАБОТА МАСТЕРА</span><span>01</span></div></div><div class="craft-copy reveal"><div><div class="eyebrow">Ремесло и точность</div><h2 class="display display-md">Работа, которую видно только в макро.</h2><p class="copy">Под отвёрткой — доли миллиметра. В кадре — то, что обычно скрыто под крышкой: мосты, винты, зубья, посадки и следы предыдущего вмешательства.</p></div></div></div></section>
 
@@ -321,9 +356,11 @@ home=f'''
 
 {block_process()}
 
+{block_prices_full()}
+
 {block_triptych()}
 
-{block_prices()}
+{block_about_text()}
 
 {block_faq()}
 
@@ -504,10 +541,7 @@ for i,(slug,name) in enumerate(brands):
 
 # PRICES
 (ROOT/'prices').mkdir(exist_ok=True)
-price_cats = ''.join(
-    f'<div class="price-category{" open" if k == 0 else ""}"><button><span>{escape(c["name"])}</span><span>+</span></button>'
-    f'<div class="price-category-body">{"".join(price_row(*it) for it in c["items"])}</div></div>'
-    for k, c in enumerate(PRICES['categories']))
+
 body=(video_hero('Цены','Цены: сначала согласование',breadcrumbs([('Цены',None)],'../'),'../',
                 'Цены «от» по основным работам. Итог подтверждается после диагностики и согласуется до начала ремонта.')
       + f'''<main><section class="section section-navy"><div class="container price-layout"><div><div class="eyebrow">Как считается стоимость</div><h2 class="display display-md">Точная цена — после диагностики.</h2><a class="btn mt-28" href="{PHONE_HREF}">Позвонить {PHONE}</a></div><div class="price-accordion">{price_cats}</div></div></section>'''
