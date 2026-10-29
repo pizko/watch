@@ -1,8 +1,9 @@
 <?php
 /**
- * Заявки с часовое-ателье.рф → Telegram.
+ * Заявки с часовое-ателье.рф → почта и Telegram.
+ * Почта — mail() на адрес mail_to из ../lead_config.php (вне webroot, в репозиторий не входит).
  * В Telegram — через пересылку на нашем VPS (deltamoscow.ru/tg-relay/): с Beget api.telegram.org недоступен с 27.10.2026.
- * Токен и chat_id лежат ВНЕ webroot: ../lead_config.php (return ['bot_token' => ..., 'chat_id' => ...]).
+ * Токен и chat_id лежат там же: ../lead_config.php (return ['bot_token' => ..., 'chat_id' => ..., 'mail_to' => ...]).
  * Копия каждой заявки — ../leads.log. Защита: скрытое поле, время заполнения, не больше 5 заявок в час с одного IP.
  * Совместим с PHP 5.6.
  */
@@ -81,8 +82,28 @@ $text = "⌚ Заявка с часовое-ателье.рф\n"
 @file_put_contents($base . '/leads.log', date('c') . "\t" . str_replace("\n", ' | ', $text) . "\n", FILE_APPEND | LOCK_EX);
 
 $cfg = @include $base . '/lead_config.php';
-if (!is_array($cfg) || empty($cfg['bot_token']) || empty($cfg['chat_id'])) {
-    // Заявка сохранена в лог, но в Telegram не ушла — человеку всё равно отвечаем успехом.
+if (!is_array($cfg)) {
+    $cfg = array();
+}
+
+$mailTo = !empty($cfg['mail_to']) ? $cfg['mail_to'] : '';
+if ($mailTo !== '') {
+    $subject = '=?UTF-8?B?' . base64_encode('Заявка с часовое-ателье.рф') . '?=';
+    $from = 'no-reply@xn----7sbbgpca1cvb4as0dve.xn--p1ai';
+    $fromName = '=?UTF-8?B?' . base64_encode('Часовое ателье') . '?=';
+    $headers = "MIME-Version: 1.0\r\n"
+        . "Content-Type: text/plain; charset=UTF-8\r\n"
+        . "From: " . $fromName . " <" . $from . ">\r\n";
+    $sent = @mail($mailTo, $subject, $text, $headers, '-f ' . $from);
+    @file_put_contents(
+        $base . '/leads.log',
+        date('c') . "\t" . ($sent ? 'MAIL_OK' : 'MAIL_FAIL') . "\n",
+        FILE_APPEND | LOCK_EX
+    );
+}
+
+if (empty($cfg['bot_token']) || empty($cfg['chat_id'])) {
+    // Заявка сохранена в лог. В Telegram не ушла — человеку всё равно отвечаем успехом.
     out(200, array('ok' => true));
 }
 
